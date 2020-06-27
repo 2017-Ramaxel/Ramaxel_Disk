@@ -2,10 +2,16 @@
 #include "ui_login.h"
 #include "QPainter"
 #include "common/common.h"
-
+#include "common/des.h"
+#include "logininfoinstance.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QMessageBox>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QJsonObject>
+#include <QJsonArray>
 
 Login::Login(QWidget *parent) :
     QDialog(parent),
@@ -15,6 +21,9 @@ Login::Login(QWidget *parent) :
     this->setWindowFlags(Qt::FramelessWindowHint | windowFlags());
     this->setFont(QFont("",10,QFont::Normal,false));
     this->setWindowTitle("Ramaxel登录");
+
+    // 初始化网络请求（http）类
+    m_manager = Common::getNetManager();
     // 此处无需指定父窗口
     m_mainWin = new MainWindow;
     // 窗口图标
@@ -77,6 +86,7 @@ Login::Login(QWidget *parent) :
         m_mainWin->hide();
         this->show();
     });
+    readCfg();
 
 }
 
@@ -147,6 +157,9 @@ void Login::on_regist_clicked()
     QString phone = ui->phone_reg->text();
     QString email = ui->email_reg->text();
 
+    QString ip = ui->ip_addr->text();
+    QString port = ui->port->text();
+
     //数据校验
     QRegExp regexp(USER_REG);
     if(!regexp.exactMatch(userName)){
@@ -193,6 +206,63 @@ void Login::on_regist_clicked()
         ui->email_reg->setFocus();
         return;
     }
+
+    // 将用户输入的注册信息 -> json对象
+        QByteArray postData = setRegisterJson(userName,nickName, m_cm.getStrMd5(firstPwd), phone, email);
+
+        // 发送http请求协议
+        QNetworkAccessManager* manager = Common::getNetManager();
+        // http请求协议头
+        QNetworkRequest request;
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        request.setHeader(QNetworkRequest::ContentLengthHeader, postData.size());
+        // url
+
+        QString url = QString("http://%1:%2/reg").arg(ip).arg(port);
+        request.setUrl(QUrl(url));
+        QNetworkReply* reply = manager->post(request, postData);
+
+        // 接收server返回的数据
+        connect(reply, &QNetworkReply::readyRead,[=]()
+        {
+            // 读返回的数据
+            // 成功 {"code":"002"}
+            // 该用户已存在 {"code":"003"}
+            // 失败 {"code":"004"}
+            QByteArray jsonData = reply->readAll();
+            qDebug() << "服务器注册返回码" << jsonData;
+            // 解析json字符串
+            // 得到一个数 QString status
+            QString status = m_cm.getCode(jsonData);
+
+            if("002" == status){
+                // success
+                // 将当前注册的用户信息填写到登录的输入框中
+                QMessageBox::information(this, "恭喜", "用户名注册成功");
+
+                ui->name_log->setText(userName);
+                ui->pwd_log->setText(firstPwd);
+                // 当前注册信息清除
+                ui->name_reg->clear();
+                ui->nichen_reg->clear();
+                ui->pwd_reg->clear();
+                ui->repwd_reg->clear();
+                ui->phone_reg->clear();
+                ui->email_reg->clear();
+                // 跳转到登录页面
+                ui->stackedWidget->setCurrentWidget(ui->login_page_3);
+            }
+            else if("003" == status){
+                // 该用户已存在
+                QMessageBox::warning(this,"警告","当前注册的用户yicunzai");
+                return;
+            }
+            else if("004" == status){
+                // failed
+                QMessageBox::critical(this,"警告","注册失败");
+                return ;
+            }
+        });
 }
 
 //服务器设置完成按钮
@@ -247,15 +317,150 @@ void Login::on_login_ok_clicked()
 
     //登录信息写入配置文件
     m_cm.writeLoginInfo(user,pwd,ui->rem_pwd->isChecked());
+    qDebug()<<"write:::"<<user.toStdString().data()<<pwd.toStdString().data();
 
-    // 当前窗口隐藏
-    this->hide();
-    // 主界面窗口显示
-    m_mainWin->showMainWindow();
+    //设置登录信息json包，MD5加密
+    QByteArray array = setLoginJson(user,m_cm.getStrMd5(pwd));
+    //设置登录url
+    QNetworkRequest request;
+    QString url = QString("http://%1:%2/login").arg(address).arg(port);
+    request.setUrl(QUrl(url));
+
+    //请求头信息
+    request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
+    request.setHeader(QNetworkRequest::ContentLengthHeader,QVariant(array.size()));
+
+    //向服务器发送post请求
+    QNetworkReply* reply = m_manager->post(request,array);
+    qDebug()<<array.data();
+
+    connect(reply,&QNetworkReply::finished,[=]()
+    {
+        //出错
+        if(reply->error() != QNetworkReply::NoError)
+        {
+            qDebug() << reply->errorString().toStdString().data();
+            //释放资源
+            reply->deleteLater();
+            return ;
+        }
+
+        //将server回写的数据取出来
+        QByteArray json = reply->readAll();
+
+        //001:成功
+        //002:失败
+
+        qDebug()<<"server return value:" << json.toStdString().data();
+        QStringList tmpList = getLoginStatus(json);
+
+        if(tmpList.at(0) == "000")
+        {
+            qDebug() <<"登录成功";
+            // 设置登陆信息，显示文件列表界面需要使用这些信息
+            LoginInfoInstance *p = LoginInfoInstance::getInstance(); //获取单例
+            p->setLoginInfo(user, address, port, tmpList.at(1));
+            qDebug() << p->getUser().toUtf8().data() << ", " << p->getIp() << ", " << p->getPort() << tmpList.at(1);
+
+            this->hide();
+            m_mainWin->showMainWindow();
+        }
+        else
+        {
+            QMessageBox::warning(this, "登录失败", "用户名或密码不正确！！！");
+        }
+        reply->deleteLater();//释放资源;
+    });
+}
+
+//读取本地配置文件，初始化用户填写登录信息
+void Login::readCfg()
+{
+    //服务器设置初始化，读取本地配置文件设置默认IP和端口号
+    QString c_ip = m_cm.getCfgValue("web_server","ip");
+    QString c_port =m_cm.getCfgValue("web_server","port");
+    ui->ip_addr->setText(c_ip);
+    ui->port->setText(c_port);
+
+    //初始化用户账号密码
+    QString user = m_cm.getCfgValue("login", "user");
+    QString pwd = m_cm.getCfgValue("login", "pwd");
+    QString remeber = m_cm.getCfgValue("login", "remember");
+
+    int ret = 0;
+
+    if(remeber == "yes")//记住密码
+    {
+        //密码解密
+        unsigned char encPwd[512] = {0};
+        int encPwdLen = 0;
+        //toLocal8Bit(), 转换为本地字符集，默认windows则为gbk编码，linux为utf-8编码
+        QByteArray tmp = QByteArray::fromBase64( pwd.toLocal8Bit());
+        ret = DesDec( (unsigned char *)tmp.data(), tmp.size(), encPwd, &encPwdLen);
+        if(ret != 0)
+        {
+            qDebug() << "DesDec";
+            return;
+        }
+        ui->rem_pwd->setChecked(true);
+
+    }
+    else //没有记住密码
+    {
+        ui->pwd_log->setText("");
+        ui->rem_pwd->setChecked(false);
+    }
+
+    //用户解密
+    unsigned char encUsr[512] = {0};
+    int encUsrLen = 0;
+    //toLocal8Bit(), 转换为本地字符集，如果windows则为gbk编码，如果linux则为utf-8编码
+    QByteArray tmp = QByteArray::fromBase64( user.toLocal8Bit());
+    ret = DesDec( (unsigned char *)tmp.data(), tmp.size(), encUsr, &encUsrLen);
+    if(ret != 0)
+    {
+        qDebug() << "DesDec";
+        return;
+    }
 }
 
 
+//获取登录返回码
+QStringList Login::getLoginStatus(QByteArray json)
+{
+    QJsonParseError error;
+    QStringList list;
 
+    // 将来源数据json转化为JsonDocument
+    // 由QByteArray对象构造一个QJsonDocument对象，用于我们的读写操作
+    QJsonDocument doc = QJsonDocument::fromJson(json, &error);
+    if (error.error == QJsonParseError::NoError)
+    {
+        if (doc.isNull() || doc.isEmpty())
+        {
+            qDebug() << "doc.isNull() || doc.isEmpty()";
+            return list;
+        }
+
+        if( doc.isObject() )
+        {
+            //取得最外层这个大对象
+            QJsonObject obj = doc.object();
+            qDebug() << "服务器返回的数据";
+            //状态码
+            list.append( obj.value( "code" ).toString() );
+            //登陆token
+            list.append( obj.value( "token" ).toString() );
+        }
+    }
+    else
+    {
+        qDebug() << "err = " << error.errorString().toStdString().data();
+    }
+
+    return list;
+
+}
 
 
 

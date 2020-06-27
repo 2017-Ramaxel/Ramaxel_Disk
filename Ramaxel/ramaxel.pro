@@ -20,6 +20,7 @@ SOURCES += \
     common/common.cpp \
     common/des.cpp \
     login.cpp \
+    logininfoinstance.cpp \
     main.cpp \
     mainwindow.cpp \
     myfilewg.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     common/common.h \
     common/des.h \
     login.h \
+    logininfoinstance.h \
     mainwindow.h \
     myfilewg.h \
     rankinglist.h \
