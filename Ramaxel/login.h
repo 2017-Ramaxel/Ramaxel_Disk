@@ -4,6 +4,12 @@
 #include <QDialog>
 #include "mainwindow.h"
 #include "common/common.h"
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
+
 
 namespace Ui {
 class Login;
@@ -17,6 +23,12 @@ public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
 
+    // 设置登陆用户信息的json包
+    QByteArray setLoginJson(QString user, QString pwd);
+
+    // 设置注册用户信息的json包
+    QByteArray setRegisterJson(QString userName, QString nickName,
+                               QString firstPwd, QString phone, QString email);
 
 private:
     Ui::Login *ui;
@@ -34,8 +46,6 @@ private slots:
     void on_server_ok_clicked();
     void on_login_ok_clicked();
 
-    // 读取配置信息，设置默认登录状态，默认设置信息
-    void readCfg();
 };
 
 #endif // LOGIN_H

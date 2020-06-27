@@ -15,14 +15,13 @@ TitleWidget::TitleWidget(QWidget *parent) :
 
     m_parent = parent;
 
-    //按钮关闭
+    //设置按钮
     connect(ui->set,&QToolButton::clicked,[=](){
         //发送信号
         emit showsetwg();
     });
-    connect(ui->min,&QToolButton::clicked,[=](){
-        m_parent->showMinimized();
-    });
+
+    //返回关闭按钮
     connect(ui->close,&QToolButton::clicked,[=](){
         emit closewindow();
     });

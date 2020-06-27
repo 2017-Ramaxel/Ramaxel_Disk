@@ -16,24 +16,39 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    buttongroup.cpp \
     common/common.cpp \
     common/des.cpp \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
-    titlewidget.cpp
+    myfilewg.cpp \
+    rankinglist.cpp \
+    sharelist.cpp \
+    titlewidget.cpp \
+    transfer.cpp
 
 HEADERS += \
+    buttongroup.h \
     common/common.h \
     common/des.h \
     login.h \
     mainwindow.h \
-    titlewidget.h
+    myfilewg.h \
+    rankinglist.h \
+    sharelist.h \
+    titlewidget.h \
+    transfer.h
 
 FORMS += \
+    buttongroup.ui \
     login.ui \
     mainwindow.ui \
-    titlewidget.ui
+    myfilewg.ui \
+    rankinglist.ui \
+    sharelist.ui \
+    titlewidget.ui \
+    transfer.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

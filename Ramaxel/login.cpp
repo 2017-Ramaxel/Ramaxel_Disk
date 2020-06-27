@@ -6,25 +6,21 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QMessageBox>
-#include <common/des.h>
 
 Login::Login(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Login)
 {
     ui->setupUi(this);
-
+    this->setWindowFlags(Qt::FramelessWindowHint | windowFlags());
     this->setFont(QFont("",10,QFont::Normal,false));
     this->setWindowTitle("Ramaxel登录");
     // 此处无需指定父窗口
     m_mainWin = new MainWindow;
-    // 读取配置文件信息，并初始化
-    readCfg();
     // 窗口图标
     this->setWindowIcon(QIcon(":/images/logo.ico"));
     m_mainWin->setWindowIcon(QIcon(":/images/logo.ico"));
 
-    // 设置当前窗口的字体信息
     this->setFont(QFont("新宋体", 12, QFont::Bold, false));
     // 密码
     ui->pwd_log->setEchoMode(QLineEdit::Password);
@@ -34,12 +30,12 @@ Login::Login(QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(0);
     ui->name_log->setFocus();
     // 数据的格式提示
-    ui->name_log->setToolTip("字符个数: 3~16");
-    ui->name_reg->setToolTip("字符个数: 3~16");
-    ui->nichen_reg->setToolTip("字符个数: 3~16");
-    ui->pwd_log->setToolTip("字符个数: 6~18");
-    ui->pwd_reg->setToolTip("字符个数: 6~18");
-    ui->repwd_reg->setToolTip("字符个数: 6~18");
+    ui->name_log->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 3~16");
+    ui->name_reg->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 3~16");
+    ui->nichen_reg->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 3~16");
+    ui->pwd_log->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 6~18");
+    ui->pwd_reg->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 6~18");
+    ui->repwd_reg->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 6~18");
 
     //接收标题栏发送的信号进行处理
     connect(ui->titlewidget,&TitleWidget::closewindow,[=](){
@@ -74,6 +70,14 @@ Login::Login(QWidget *parent) :
     connect(ui->titlewidget,&TitleWidget::showsetwg,[=](){
         ui->stackedWidget->setCurrentWidget(ui->set_page_3);
     });
+
+    // 切换用户 - 重新登录
+    connect(m_mainWin, &MainWindow::changeUser, [=]()
+    {
+        m_mainWin->hide();
+        this->show();
+    });
+
 }
 
 
@@ -81,6 +85,46 @@ Login::Login(QWidget *parent) :
 Login::~Login()
 {
     delete ui;
+}
+
+
+// 登陆用户需要使用的json数据包
+QByteArray Login::setLoginJson(QString user, QString pwd)
+{
+    QMap<QString, QVariant> login;
+    login.insert("user",user);
+    login.insert("pwd",pwd);
+    /*json数据如
+        {
+            user:xxxx,
+            pwd:xxx
+        }
+    */
+    QJsonDocument jsonDocument = QJsonDocument::fromVariant(login);
+    if(jsonDocument.isNull()){
+        cout << " jsonDocument.isNull() ";
+        return "";
+    }
+    return jsonDocument.toJson();
+}
+
+
+// 注册用户需要使用的json数据包
+QByteArray Login::setRegisterJson(QString userName, QString nickName, QString firstPwd, QString phone, QString email)
+{
+    QMap<QString, QVariant> reg;
+    reg.insert("userName", userName);
+    reg.insert("nickName", nickName);
+    reg.insert("firstPwd", firstPwd);
+    reg.insert("phone", phone);
+    reg.insert("email", email);
+
+    QJsonDocument jsonDoc = QJsonDocument::fromVariant(reg);
+    if(jsonDoc.isNull()){
+        cout << " jsonDocument.isNull() ";
+        return "";
+    }
+    return jsonDoc.toJson();
 }
 
 
@@ -201,73 +245,20 @@ void Login::on_login_ok_clicked()
         return;
     }
 
+    //登录信息写入配置文件
+    m_cm.writeLoginInfo(user,pwd,ui->rem_pwd->isChecked());
+
     // 当前窗口隐藏
     this->hide();
     // 主界面窗口显示
-    m_mainWin->show();
+    m_mainWin->showMainWindow();
 }
 
-// 读取配置信息，设置默认登录状态，默认设置信息
-void Login::readCfg()
-{
-    QString user = m_cm.getCfgValue("login", "user");
-    QString pwd = m_cm.getCfgValue("login", "pwd");
-    QString remeber = m_cm.getCfgValue("login", "remember");
-//    int ret = 0;
-//    if(remeber == "yes")//记住密码
-//    {
-
-//        //密码解密
-//        unsigned char encPwd[512] = {0};
-//        int encPwdLen = 0;
-//        //toLocal8Bit(), 转换为本地字符集，默认windows则为gbk编码，linux为utf-8编码
-//        QByteArray tmp = QByteArray::fromBase64( pwd.toLocal8Bit());
-//        ret = DesDec( (unsigned char *)tmp.data(), tmp.size(), encPwd, &encPwdLen);
-//        cout<<"hhh"<<ret;
-//        if(ret != 0)
-//        {
-//            cout << "DesDec";
-//            return;
-//        }
-
-//    #ifdef _WIN32 //如果是windows平台
-//        //fromLocal8Bit(), 本地字符集转换为utf-8
-//        ui->log_pwd->setText( QString::fromLocal8Bit( (const char *)encPwd, encPwdLen ) );
-//    #else //其它平台
-//        ui->pwd_log->setText( (const char *)encPwd );
-//    #endif
-
-//        ui->rem_pwd->setChecked(true);
-
-//    }
-//    else //没有记住密码
-//    {
-//        ui->pwd_log->setText("");
-//        ui->rem_pwd->setChecked(false);
-//    }
-
-//    //用户解密
-//    unsigned char encUsr[512] = {0};
-//    int encUsrLen = 0;
-//    //toLocal8Bit(), 转换为本地字符集，如果windows则为gbk编码，如果linux则为utf-8编码
-//    QByteArray tmp = QByteArray::fromBase64( user.toLocal8Bit());
-//    ret = DesDec( (unsigned char *)tmp.data(), tmp.size(), encUsr, &encUsrLen);
-//    if(ret != 0)
-//    {
-//        cout << "DesDec";
-//        return;
-//    }
-
-//    #ifdef _WIN32 //如果是windows平台
-//        //fromLocal8Bit(), 本地字符集转换为utf-8
-//        ui->log_usr->setText( QString::fromLocal8Bit( (const char *)encUsr, encUsrLen ) );
-//    #else //其它平台
-//        ui->name_log->setText( (const char *)encUsr );
-//    #endif
 
 
-    QString ip = m_cm.getCfgValue("web_server", "ip");
-    QString port = m_cm.getCfgValue("web_server", "port");
-    ui->ip_addr->setText(ip);
-    ui->port->setText(port);
-}
+
+
+
+
+
+

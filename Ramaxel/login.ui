@@ -60,7 +60,7 @@ border: 2px</string>
                 </size>
                </property>
                <property name="text">
-                <string>密码</string>
+                <string/>
                </property>
               </widget>
              </item>
@@ -104,8 +104,11 @@ border: 2px</string>
                  <height>16777215</height>
                 </size>
                </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
                <property name="text">
-                <string>手机/邮箱/用户名</string>
+                <string/>
                </property>
               </widget>
              </item>
@@ -607,6 +610,23 @@ border-radius:3px;</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>name_log</tabstop>
+  <tabstop>pwd_log</tabstop>
+  <tabstop>rem_pwd</tabstop>
+  <tabstop>reg_log</tabstop>
+  <tabstop>login_ok</tabstop>
+  <tabstop>name_reg</tabstop>
+  <tabstop>nichen_reg</tabstop>
+  <tabstop>pwd_reg</tabstop>
+  <tabstop>repwd_reg</tabstop>
+  <tabstop>phone_reg</tabstop>
+  <tabstop>email_reg</tabstop>
+  <tabstop>regist</tabstop>
+  <tabstop>ip_addr</tabstop>
+  <tabstop>port</tabstop>
+  <tabstop>server_ok</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
