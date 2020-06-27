@@ -24,6 +24,7 @@ SOURCES += \
     mainwindow.cpp \
     myfilewg.cpp \
     rankinglist.cpp \
+    selfwidget/mymenu.cpp \
     sharelist.cpp \
     titlewidget.cpp \
     transfer.cpp
@@ -36,6 +37,7 @@ HEADERS += \
     mainwindow.h \
     myfilewg.h \
     rankinglist.h \
+    selfwidget/mymenu.h \
     sharelist.h \
     titlewidget.h \
     transfer.h
