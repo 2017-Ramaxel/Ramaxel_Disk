@@ -2,8 +2,8 @@
 #define MYFILEWG_H
 
 #include <QWidget>
-#include "common/common.h"
 #include "selfwidget/mymenu.h"
+#include "common/common.h"
 
 namespace Ui {
 class MyFileWg;
@@ -28,21 +28,55 @@ public:
     // 添加需要下载的文件到下载任务列表
     void addDownloadFiles();
 
-    // desc 降序
-    // asc 升序
+
+    //==========>文件item展示<==============
+    // 清空文件列表
+    void clearFileList();
+    // 清空所有item项目
+    void clearItems();
+    // 添加上传文件项目item
+    void addUploadItem(QString iconPath="./images/upload.png", QString name="上传文件");
+    // 文件item展示
+    void refreshFileItems();
+
+
+
+    //==========>显示用户的文件列表<==============
+    // desc是descend 降序意思
+    // asc 是ascend 升序意思
     // Normal：普通用户列表，PvAsc：按下载量升序， PvDesc：按下载量降序
     enum Display{Normal, PvAsc, PvDesc};
+    // 得到服务器json文件
+    QStringList getCountStatus(QByteArray json);
     // 显示用户的文件列表
     void refreshFiles(Display cmd=Normal);
+    // 设置json包
+    QByteArray setGetCountJson(QString user, QString token);
+    // 设置json包
+    QByteArray setFilesListJson(QString user, QString token, int start, int count);
+    // 获取用户文件列表
+    void getUserFilesList(Display cmd=Normal);
+    // 解析文件列表json信息，存放在文件列表中
+    void getFileJsonInfo(QByteArray data);
+
 
     // 处理选中的文件
     void dealSelectdFile(QString cmd="分享");
-    //分享文件
+    QByteArray setDealFileJson(QString user, QString token, QString md5, QString filename);//设置json包
+
+    //==========>分享文件<==============
     void shareFile(FileInfo *info); //分享某个文件
-    //删除文件
+
+    //==========>删除文件<==============
     void delFile(FileInfo *info); //删除某个文件
-    //获取文件属性
+
+    //==========>获取文件属性<==============
     void getFileProperty(FileInfo *info); //获取属性信息
+
+signals:
+    void loginAgainSignal();
+    void gotoTransfer(TransferStatus status);
+
 
 private:
     //点击右键菜单信号的槽函数
@@ -51,6 +85,8 @@ private:
 private:
     Ui::MyFileWg *ui;
 
+    Common m_cm;
+    QNetworkAccessManager* m_manager;
     MyMenu *m_menu; //菜单1
     QAction *m_downloadAction; // 下载
     QAction *m_shareAction;    // 分享
@@ -63,11 +99,12 @@ private:
     QAction *m_refreshAction;      // 刷新
     QAction *m_uploadAction;       // 上传
 
+    long m_userFilesCount;        //用户文件数目
+    int m_start;                  //文件位置起点
+    int m_count;                  //每次请求文件个数
+
     QList<FileInfo *> m_fileList;    //文件列表
 
-signals:
-    void loginAgainSignal();
-    void gotoTransfer(TransferStatus status);
 };
 
 #endif // MYFILEWG_H

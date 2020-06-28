@@ -26,6 +26,7 @@ SOURCES += \
     mainwindow.cpp \
     myfilewg.cpp \
     rankinglist.cpp \
+    selfwidget/filepropertyinfo.cpp \
     selfwidget/mymenu.cpp \
     sharelist.cpp \
     titlewidget.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     mainwindow.h \
     myfilewg.h \
     rankinglist.h \
+    selfwidget/filepropertyinfo.h \
     selfwidget/mymenu.h \
     sharelist.h \
     titlewidget.h \
@@ -52,6 +54,7 @@ FORMS += \
     mainwindow.ui \
     myfilewg.ui \
     rankinglist.ui \
+    selfwidget/filepropertyinfo.ui \
     sharelist.ui \
     titlewidget.ui \
     transfer.ui

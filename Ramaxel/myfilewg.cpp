@@ -1,15 +1,30 @@
 #include "myfilewg.h"
 #include "ui_myfilewg.h"
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QListWidgetItem>
+#include "logininfoinstance.h"
+#include "selfwidget/filepropertyinfo.h"
+
 
 MyFileWg::MyFileWg(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MyFileWg)
 {
     ui->setupUi(this);
+
     // 初始化listWidget文件列表
     initListWidget();
     // 添加右键菜单
     addActionMenu();
+
+    // http管理类对象
+    m_manager = Common::getNetManager();
 }
 
 MyFileWg::~MyFileWg()
@@ -43,7 +58,7 @@ void MyFileWg::initListWidget()
         if(str == "上传文件")
         {
             //添加需要上传的文件到上传任务列表
-            addDownloadFiles();
+            addUploadFiles();
         }
     });
 }
@@ -79,7 +94,7 @@ void MyFileWg::addActionMenu()
     m_menuEmpty->addAction(m_refreshAction);
     m_menuEmpty->addAction(m_uploadAction);
 
-    //信号与槽
+    //=====================信号与槽===================
     // 下载
     connect(m_downloadAction, &QAction::triggered, [=]()
     {
@@ -163,6 +178,222 @@ void MyFileWg::rightMenu(const QPoint &pos)
     }
 }
 
+QByteArray MyFileWg::setFilesListJson(QString user, QString token, int start, int count)
+{
+    /*{
+        "user": "yoyo"
+        "token": "xxx"
+        "start": 0
+        "count": 10
+    }*/
+    QMap<QString, QVariant> tmp;
+    tmp.insert("user", user);
+    tmp.insert("token", token);
+    tmp.insert("start", start);
+    tmp.insert("count", count);
+
+    QJsonDocument jsonDocument = QJsonDocument::fromVariant(tmp);
+    if ( jsonDocument.isNull() )
+    {
+        cout << " jsonDocument.isNull() ";
+        return "";
+    }
+
+    //cout << jsonDocument.toJson().data();
+
+    return jsonDocument.toJson();
+}
+
+// 获取用户文件列表
+// cmd取值，Normal：普通用户列表，PvAsc：按下载量升序， PvDesc：按下载量降序
+void MyFileWg::getUserFilesList(MyFileWg::Display cmd)
+{
+    //遍历数目，结束条件处理
+    if(m_userFilesCount <= 0) //结束条件，这个条件很重要，函数递归的结束条件
+    {
+        cout << "获取用户文件列表条件结束";
+        refreshFileItems(); //更新item
+        return; //中断函数
+    }
+    else if(m_count > m_userFilesCount) //如果请求文件数量大于用户的文件数目
+    {
+        m_count = m_userFilesCount;
+    }
+
+
+    QNetworkRequest request; //请求对象
+
+    // 获取登陆信息实例
+    LoginInfoInstance *login = LoginInfoInstance::getInstance(); //获取单例
+
+    // 获取用户文件信息 127.0.0.1:80/myfiles&cmd=normal
+    // 按下载量升序 127.0.0.1:80/myfiles?cmd=pvasc
+    // 按下载量降序127.0.0.1:80/myfiles?cmd=pvdesc
+    QString url;
+
+    QString tmp;
+    //cmd取值，Normal：普通用户列表，PvAsc：按下载量升序， PvDesc：按下载量降序
+    if(cmd == Normal)
+    {
+        tmp = "normal";
+    }
+    else if(cmd == PvAsc)
+    {
+        tmp = "pvasc";
+    }
+    else if(cmd == PvDesc)
+    {
+        tmp = "pvdesc";
+    }
+
+    url = QString("http://%1:%2/myfiles?cmd=%3").arg(login->getIp()).arg(login->getPort()).arg(tmp);
+    request.setUrl(QUrl( url )); //设置url
+
+    //qt默认的请求头
+    //request.setRawHeader("Content-Type","text/html");
+    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
+
+    /*
+    {
+        "user": "yoyo"
+        "token": "xxxx"
+        "start": 0
+        "count": 10
+    }
+    */
+    QByteArray data = setFilesListJson( login->getUser(), login->getToken(), m_start, m_count);
+
+    //改变文件起点位置
+    m_start += m_count;
+    m_userFilesCount -= m_count;
+
+    //发送post请求
+    QNetworkReply * reply = m_manager->post( request, data );
+    if(reply == nullptr)
+    {
+        cout << "reply == NULL";
+        return;
+    }
+
+    //获取请求的数据完成时，就会发送信号SIGNAL(finished())
+    connect(reply, &QNetworkReply::finished, [=]()
+    {
+        if (reply->error() != QNetworkReply::NoError) //有错误
+        {
+            cout << reply->errorString();
+            reply->deleteLater(); //释放资源
+            return;
+        }
+
+        //服务器返回用户的数据
+        QByteArray array = reply->readAll();
+
+        reply->deleteLater();
+
+        //token验证失败
+        if("111" == m_cm.getCode(array) ) //common.h
+        {
+            QMessageBox::warning(this, "账户异常", "请重新登陆！！！");
+            emit loginAgainSignal(); //发送重新登陆信号
+
+            return; //中断
+        }
+
+        //不是错误码就处理文件列表json信息
+        if("015" != m_cm.getCode(array) ) //common.h
+        {
+            //cout << array.data();
+            getFileJsonInfo(array);//解析文件列表json信息，存放在文件列表中
+
+            //继续获取用户文件列表
+            getUserFilesList(cmd);
+        }
+    });
+}
+
+void MyFileWg::getFileJsonInfo(QByteArray data)
+{
+    QJsonParseError error;
+
+    /*
+    {
+    "user": "yoyo",
+    "md5": "e8ea6031b779ac26c319ddf949ad9d8d",
+    "time": "2017-02-26 21:35:25",
+    "filename": "test.mp4",
+    "share_status": 0,
+    "pv": 0,
+    "url": "http://192.168.31.109:80/group1/M00/00/00/wKgfbViy2Z2AJ-FTAaM3As-g3Z0782.mp4",
+    "size": 27473666,
+     "type": "mp4"
+    }
+    */
+    //将来源数据json转化为JsonDocument
+    //由QByteArray对象构造一个QJsonDocument对象，用于我们的读写操作
+    QJsonDocument doc = QJsonDocument::fromJson(data, &error);
+    if (error.error == QJsonParseError::NoError) //没有出错
+    {
+        if (doc.isNull() || doc.isEmpty())
+        {
+            cout << "doc.isNull() || doc.isEmpty()";
+            return;
+        }
+
+        if( doc.isObject())
+        {
+            //QJsonObject json对象，描述json数据中{}括起来部分
+            QJsonObject obj = doc.object();//取得最外层这个大对象
+
+            //获取games所对应的数组
+            //QJsonArray json数组，描述json数据中[]括起来部分
+            QJsonArray array = obj.value("files").toArray();
+
+            int size = array.size();   //数组个数
+            cout << "size = " << size;
+
+            for(int i = 0; i < size; ++i)
+            {
+                QJsonObject tmp = array[i].toObject(); //取第i个对象
+                /*
+                    //文件信息
+                    struct FileInfo
+                    {
+                        QString md5;        //文件md5码
+                        QString filename;   //文件名字
+                        QString user;       //用户
+                        QString time;       //上传时间
+                        QString url;        //url
+                        QString type;       //文件类型
+                        qint64 size;        //文件大小
+                        int shareStatus;    //是否共享, 1共享， 0不共享
+                        int pv;             //下载量
+                        QListWidgetItem *item; //list widget 的item
+                    };
+                */
+                FileInfo *info = new FileInfo;
+                info->user = tmp.value("user").toString(); //用户
+                info->md5 = tmp.value("md5").toString(); //文件md5
+                info->time = tmp.value("time").toString(); //上传时间
+                info->filename = tmp.value("filename").toString(); //文件名字
+                info->shareStatus = tmp.value("share_status").toInt(); //共享状态
+                info->pv = tmp.value("pv").toInt(); //下载量
+                info->url = tmp.value("url").toString(); //url
+                info->size = tmp.value("size").toInt(); //文件大小，以字节为单位
+                info->type = tmp.value("type").toString();//文件后缀
+                QString type = info->type + ".png";
+                info->item = new QListWidgetItem(QIcon( m_cm.getFileType(type) ), info->filename);
+
+                //list添加节点
+                m_fileList.append(info);
+            }
+        }
+    }
+    else
+    {
+        cout << "err = " << error.errorString();
+    }
+}
+
 
 // 处理选中的文件
 void MyFileWg::dealSelectdFile(QString cmd)
@@ -199,11 +430,145 @@ void MyFileWg::dealSelectdFile(QString cmd)
     }
 }
 
+// 设置选中的文件的json包
+QByteArray MyFileWg::setDealFileJson(QString user, QString token, QString md5, QString filename)
+{
+    /*
+    {
+        "user": "yoyo",
+        "token": "xxxx",
+        "md5": "xxx",
+        "filename": "xxx"
+    }
+    */
+    QMap<QString, QVariant> tmp;
+    tmp.insert("user", user);
+    tmp.insert("token", token);
+    tmp.insert("md5", md5);
+    tmp.insert("filename", filename);
+
+    QJsonDocument jsonDocument = QJsonDocument::fromVariant(tmp);
+    if ( jsonDocument.isNull() )
+    {
+        cout << " jsonDocument.isNull() ";
+        return "";
+    }
+    //cout << jsonDocument.toJson().data();
+
+    return jsonDocument.toJson();
+}
+
+// 设置json包
+QByteArray MyFileWg::setGetCountJson(QString user, QString token)
+{
+    QMap<QString, QVariant> tmp;
+    tmp.insert("user", user);
+    tmp.insert("token", token);
+
+    /*json数据如下
+    {
+        user:xxxx
+        token: xxxx
+    }
+    */
+    QJsonDocument jsonDocument = QJsonDocument::fromVariant(tmp);
+    if ( jsonDocument.isNull() )
+    {
+        cout << " jsonDocument.isNull() ";
+        return "";
+    }
+
+    //cout << jsonDocument.toJson().data();
+    return jsonDocument.toJson();
+}
 
 // 分享文件
 void MyFileWg::shareFile(FileInfo *info)
 {
     cout << "分享成功...";
+    if(info->shareStatus == 1) //已经分享，不能再分享
+    {
+        QMessageBox::warning(this, "此文件已经分享", "此文件已经分享!!!");
+        return;
+    }
+
+    QNetworkRequest request; //请求对象
+
+    //获取登陆信息实例
+    LoginInfoInstance *login = LoginInfoInstance::getInstance(); //获取单例
+
+    //127.0.0.1:80/dealfile?cmd=share
+    QString url = QString("http://%1:%2/dealfile?cmd=share").arg(login->getIp()).arg(login->getPort());
+    request.setUrl(QUrl( url )); //设置url
+
+    //qt默认的请求头
+    //request.setRawHeader("Content-Type","text/html");
+    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
+
+    /*
+    {
+        "user": "yoyo",
+        "token": "xxxx",
+        "md5": "xxx",
+        "filename": "xxx"
+    }
+    */
+    QByteArray data = setDealFileJson( login->getUser(),  login->getToken(), info->md5, info->filename);
+
+    //发送post请求
+    QNetworkReply * reply = m_manager->post( request, data );
+    if(reply == nullptr)
+    {
+        cout << "reply == NULL";
+        return;
+    }
+
+    //获取请求的数据完成时，就会发送信号SIGNAL(finished())
+    connect(reply, &QNetworkReply::finished, [=]()
+    {
+        if (reply->error() != QNetworkReply::NoError) //有错误
+        {
+            cout << reply->errorString();
+            reply->deleteLater(); //释放资源
+            return;
+        }
+
+        //服务器返回用户的数据
+        QByteArray array = reply->readAll();
+
+        reply->deleteLater();
+
+        /*
+            分享文件：
+                成功：{"code":"010"}
+                失败：{"code":"011"}
+                别人已经分享此文件：{"code", "012"}
+
+            token验证失败：{"code":"111"}
+
+            */
+        if("010" == m_cm.getCode(array) ) //common.h
+        {
+            //修改文件列表的属性信息
+            info->shareStatus = 1; //设置此文件为已分享
+            QMessageBox::information(this, "分享成功", QString("[%1] 分享成功!!!").arg(info->filename));
+        }
+        else if("011" == m_cm.getCode(array))
+        {
+            QMessageBox::warning(this, "分享失败", QString("[%1] 分享失败!!!").arg(info->filename));
+        }
+        else if("012" == m_cm.getCode(array))
+        {
+            QMessageBox::warning(this, "分享失败", QString("[%1] 别人已分享此文件!!!").arg(info->filename));
+        }
+        else if("111" == m_cm.getCode(array)) //token验证失败
+        {
+            QMessageBox::warning(this, "账户异常", "请重新登陆！！！");
+            emit loginAgainSignal(); //发送重新登陆信号
+
+            return;
+        }
+    });
 }
 
 // 删除文件
@@ -211,31 +576,279 @@ void MyFileWg::delFile(FileInfo *info)
 {
 
         cout << "删除成功...";
+    QNetworkRequest request; //请求对象
+
+    //获取登陆信息实例
+    LoginInfoInstance *login = LoginInfoInstance::getInstance(); //获取单例
+
+    //127.0.0.1:80/dealfile?cmd=del
+    QString url = QString("http://%1:%2/dealfile?cmd=del").arg(login->getIp()).arg(login->getPort());
+    request.setUrl(QUrl( url )); //设置url
+
+    //qt默认的请求头
+    //request.setRawHeader("Content-Type","text/html");
+    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
+
+    /*
+    {
+        "user": "yoyo",
+        "token": "xxxx",
+        "md5": "xxx",
+        "filename": "xxx"
+    }
+    */
+    QByteArray data = setDealFileJson( login->getUser(),  login->getToken(), info->md5, info->filename);
+
+    //发送post请求
+    QNetworkReply * reply = m_manager->post( request, data );
+    if(reply == nullptr)
+    {
+        cout << "reply == NULL";
+        return;
+    }
+
+    //获取请求的数据完成时，就会发送信号SIGNAL(finished())
+    connect(reply, &QNetworkReply::finished, [=]()
+    {
+        if (reply->error() != QNetworkReply::NoError) //有错误
+        {
+            cout << reply->errorString();
+            reply->deleteLater(); //释放资源
+            return;
+        }
+
+        //服务器返回用户的数据
+        QByteArray array = reply->readAll();
+
+        reply->deleteLater();
+
+        /*
+            删除文件：
+                成功：{"code":"013"}
+                失败：{"code":"014"}
+            */
+        if("013" == m_cm.getCode(array) ) //common.h
+        {
+            QMessageBox::information(this, "文件删除成功", QString("[%1] 删除成功!!!").arg(info->filename));
+            //从文件列表中移除该文件，移除列表视图中此item
+            for(int i = 0; i < m_fileList.size(); ++i)
+            {
+                if( m_fileList.at(i) == info)
+                {
+                    QListWidgetItem *item = info->item;
+                    //从列表视图移除此item
+                    ui->listWidget->removeItemWidget(item);
+                    delete item;
+
+                    m_fileList.removeAt(i);
+                    delete info;
+                    break; //很重要的中断条件
+                }
+            }
+        }
+        else if("014" == m_cm.getCode(array))
+        {
+            QMessageBox::information(this, "文件删除失败", QString("[%1] 删除失败!!!").arg(info->filename));
+        }
+        else if("111" == m_cm.getCode(array)) //token验证失败
+        {
+            QMessageBox::warning(this, "账户异常", "请重新登陆！！！");
+            emit loginAgainSignal(); //发送重新登陆信号
+
+            return; //中断
+        }
+    });
 }
 
 // 获取文件属性
 void MyFileWg::getFileProperty(FileInfo *info)
 {
         cout << "获取属性成功...";
+    FilePropertyInfo dlg; //创建对话框
+    dlg.setInfo(info);
+
+    dlg.exec(); //模态方式运行
 }
 
-// 显示用户文件列表
+
+// 得到服务器json文件
+QStringList MyFileWg::getCountStatus(QByteArray json)
+{
+    QJsonParseError error;
+    QStringList list;
+
+    //cout << "json = " << json.data();
+
+    //将来源数据json转化为JsonDocument
+    //由QByteArray对象构造一个QJsonDocument对象，用于我们的读写操作
+    QJsonDocument doc = QJsonDocument::fromJson(json, &error);
+    if (error.error == QJsonParseError::NoError) //没有出错
+    {
+        if (doc.isNull() || doc.isEmpty())
+        {
+            cout << "doc.isNull() || doc.isEmpty()";
+            return list;
+        }
+
+        if( doc.isObject() )
+        {
+            QJsonObject obj = doc.object();//取得最外层这个大对象
+            list.append( obj.value( "token" ).toString() ); //登陆token
+            list.append( obj.value( "num" ).toString() ); //文件个数
+        }
+    }
+    else
+    {
+        cout << "err = " << error.errorString();
+    }
+
+    return list;
+}
+
+
+
+//显示用户文件列表
 // cmd取值，Normal：普通用户列表，PvAsc：按下载量升序， PvDesc：按下载量降序
 void MyFileWg::refreshFiles(MyFileWg::Display cmd)
+
 {
     cout << "刷新并显示文件列表";
+
+    //先获取用户文件数目
+    m_userFilesCount = 0;
+    QNetworkRequest request; //请求对象
+    // 获取登录信息实例
+    LoginInfoInstance *login = LoginInfoInstance::getInstance(); //获取单例
+
+    // 127.0.0.1:80/myfiles&cmd=count		//获取用户文件个数
+    QString url = QString("http://%1:%2/myfiles?cmd=count").arg(login->getIp()).arg(login->getPort());
+    request.setUrl(QUrl(url)); //设置url
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
+
+    QByteArray data = setGetCountJson( login->getUser(), login->getToken()); // { "user": "yoyo" }
+
+    // 发送post请求
+    QNetworkReply * reply = m_manager->post( request, data );
+    if(reply == nullptr)
+    {
+        cout << "reply == NULL";
+        return;
+    }
+
+    // 获取请求的数据完成时，就会发送信号SIGNAL(finished())
+    connect(reply, &QNetworkReply::finished, [=]()
+    {
+        if (reply->error() != QNetworkReply::NoError) //有错误
+        {
+            cout << reply->errorString();
+            reply->deleteLater(); //释放资源
+            return;
+        }
+
+        // 服务器返回数据
+        QByteArray array = reply->readAll();
+
+        reply->deleteLater(); //释放
+
+        // 得到服务器json文件
+        QStringList list = getCountStatus(array);
+
+        // token验证失败
+        if( list.at(0) == "111" )
+        {
+            QMessageBox::warning(this, "账户异常", "请重新登陆！！！");
+
+            emit loginAgainSignal(); //发送重新登陆信号
+
+            return; //中断
+        }
+
+        // 转换为long
+        m_userFilesCount = list.at(1).toLong();
+        cout << "userFilesCount = " << m_userFilesCount;
+
+        // 清空文件列表信息
+        clearFileList();
+
+        if(m_userFilesCount > 0)
+        {
+            // 说明用户有文件，获取用户文件列表
+            m_start = 0;  //从0开始
+            m_count = 10; //每次请求10个
+
+            // 获取新的文件列表信息
+            getUserFilesList(cmd);
+        }
+        else //没有文件
+        {
+            refreshFileItems(); //更新item
+        }
+    });
 }
 
-// 添加需要上传的文件
+
+//文件item展示
+// 清空文件列表
+void MyFileWg::clearFileList()
+{
+    int n = m_fileList.size();
+    for(int i = 0; i < n; ++i)
+    {
+        FileInfo *tmp = m_fileList.takeFirst();
+        delete tmp;
+    }
+}
+
+// 清空所有item项目
+void MyFileWg::clearItems()
+{
+    //使用QListWidget::count()来统计ListWidget中总共的item数目
+    int n = ui->listWidget->count();
+    for(int i = 0; i < n; ++i)
+    {
+        QListWidgetItem *item = ui->listWidget->takeItem(0); //这里是0，不是i
+        delete item;
+    }
+}
+
+// 添加上传文件项目item
+void MyFileWg::addUploadItem(QString iconPath, QString name)
+{
+    ui->listWidget->addItem(new QListWidgetItem(QIcon(iconPath), name));
+}
+
+// 文件item展示
+void MyFileWg::refreshFileItems()
+{
+    //清空所有item项目
+    clearItems();
+
+    //如果文件列表不为空，显示文件列表
+    if(m_fileList.isEmpty() == false)
+    {
+        int n = m_fileList.size(); //元素个数
+        for(int i = 0; i < n; ++i)
+        {
+            FileInfo *tmp = m_fileList.at(i);
+            QListWidgetItem *item = tmp->item;
+            //list widget add item
+            ui->listWidget->addItem(item);
+        }
+    }
+    //添加上传文件item
+    this->addUploadItem();
+}
+
+
+// 添加需要上传的文件到上传任务列表
 void MyFileWg::addUploadFiles()
 {
     cout << "上传文件...";
 }
 
-// 添加需要下载的文件
+// 添加需要下载的文件到下载任务列表
 void MyFileWg::addDownloadFiles()
 {
     cout << "下载文件...";
-
 }
-
