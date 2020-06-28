@@ -43,6 +43,7 @@ void MyFileWg::initListWidget()
         if(str == "上传文件")
         {
             //添加需要上传的文件到上传任务列表
+            addDownloadFiles();
         }
     });
 }
@@ -77,6 +78,66 @@ void MyFileWg::addActionMenu()
     m_menuEmpty->addAction(m_pvDescendingAction);
     m_menuEmpty->addAction(m_refreshAction);
     m_menuEmpty->addAction(m_uploadAction);
+
+    //信号与槽
+    // 下载
+    connect(m_downloadAction, &QAction::triggered, [=]()
+    {
+        cout << "下载动作";
+        //添加需要下载的文件到下载任务列表
+        addDownloadFiles();
+    });
+
+    // 分享
+    connect(m_shareAction, &QAction::triggered, [=]()
+    {
+        cout << "分享动作";
+        dealSelectdFile("分享"); //处理选中的文件
+    });
+
+    // 删除
+    connect(m_delAction, &QAction::triggered, [=]()
+    {
+        cout << "删除动作";
+        dealSelectdFile("删除"); //处理选中的文件
+    });
+
+    // 属性
+    connect(m_propertyAction, &QAction::triggered, [=]()
+    {
+        cout << "属性动作";
+        dealSelectdFile("属性"); //处理选中的文件
+    });
+
+    // 按下载量升序
+    connect(m_pvAscendingAction, &QAction::triggered, [=]()
+    {
+        cout << "按下载量升序";
+        refreshFiles(PvAsc);
+    });
+
+    // 按下载量降序
+    connect(m_pvDescendingAction, &QAction::triggered, [=]()
+    {
+        cout << "按下载量降序";
+        refreshFiles(PvDesc);
+    });
+
+    //刷新
+    connect(m_refreshAction, &QAction::triggered, [=]()
+    {
+        cout << "刷新动作";
+        //显示用户的文件列表
+        refreshFiles();
+    });
+
+    //上传
+    connect(m_uploadAction, &QAction::triggered, [=]()
+    {
+        cout << "上传动作";
+        //添加需要上传的文件到上传任务列表
+        addUploadFiles();
+    });
 }
 
 
@@ -87,10 +148,6 @@ void MyFileWg::rightMenu(const QPoint &pos)
 
     if( item == nullptr ) //没有点图标
     {
-        // QPoint QMouseEvent::pos()   这个只是返回相对这个widget(重载了QMouseEvent的widget)的位置。
-        // QPoint QMouseEvent::globalPos()  窗口坐标，这个是返回鼠标的全局坐标
-        // QPoint QCursor::pos() [static] 返回相对显示器的全局坐标
-        // QWidget::pos() : QPoint 这个属性获得的是当前目前控件在父窗口中的位置
         m_menuEmpty->exec( QCursor::pos() ); //在鼠标点击的地方弹出菜单
     }
     else //点图标
@@ -107,7 +164,78 @@ void MyFileWg::rightMenu(const QPoint &pos)
 }
 
 
-void MyFileWg::refreshFiles(MyFileWg::Display cmd)
+// 处理选中的文件
+void MyFileWg::dealSelectdFile(QString cmd)
+{
+    //获取当前选中的item
+    QListWidgetItem *item = ui->listWidget->currentItem();
+    if(item == nullptr)
+    {
+        return;
+    }
+
+    //查找文件列表匹配的元素
+    for(int i = 0; i < m_fileList.size(); ++i)
+    {
+        if(m_fileList.at(i)->item == item)
+        {
+            if(cmd == "分享")
+            {
+                cout << "分享文件...";
+                shareFile( m_fileList.at(i) ); //分享某个文件
+            }
+            else if(cmd == "删除")
+            {
+                cout << "删除文件...";
+                delFile( m_fileList.at(i) ); //删除某个文件
+            }
+            else if(cmd == "属性")
+            {
+                cout << "获取文件属性...";
+                getFileProperty( m_fileList.at(i) ); //获取属性信息
+            }
+            break; //跳出循环
+        }
+    }
+}
+
+
+// 分享文件
+void MyFileWg::shareFile(FileInfo *info)
+{
+    cout << "分享成功...";
+}
+
+// 删除文件
+void MyFileWg::delFile(FileInfo *info)
 {
 
+        cout << "删除成功...";
 }
+
+// 获取文件属性
+void MyFileWg::getFileProperty(FileInfo *info)
+{
+        cout << "获取属性成功...";
+}
+
+// 显示用户文件列表
+// cmd取值，Normal：普通用户列表，PvAsc：按下载量升序， PvDesc：按下载量降序
+void MyFileWg::refreshFiles(MyFileWg::Display cmd)
+{
+    cout << "刷新并显示文件列表";
+}
+
+// 添加需要上传的文件
+void MyFileWg::addUploadFiles()
+{
+    cout << "上传文件...";
+}
+
+// 添加需要下载的文件
+void MyFileWg::addDownloadFiles()
+{
+    cout << "下载文件...";
+
+}
+
