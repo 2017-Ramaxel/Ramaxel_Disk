@@ -13,7 +13,9 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QToolButton>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -30,12 +32,22 @@ public:
     QToolButton *download;
     QToolButton *transform;
     QToolButton *switchuser;
+    QSpacerItem *horizontalSpacer_2;
+    QWidget *widget_2;
+    QVBoxLayout *verticalLayout;
+    QWidget *widget_3;
+    QHBoxLayout *horizontalLayout_2;
+    QSpacerItem *horizontalSpacer;
+    QToolButton *min;
+    QToolButton *max;
+    QToolButton *close;
+    QSpacerItem *verticalSpacer;
 
     void setupUi(QWidget *ButtonGroup)
     {
         if (ButtonGroup->objectName().isEmpty())
             ButtonGroup->setObjectName(QString::fromUtf8("ButtonGroup"));
-        ButtonGroup->resize(795, 115);
+        ButtonGroup->resize(846, 115);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -53,8 +65,8 @@ public:
         login_usr = new QToolButton(btns_wg);
         login_usr->setObjectName(QString::fromUtf8("login_usr"));
         QFont font;
-        font.setFamily(QString::fromUtf8("Sans Serif"));
-        font.setPointSize(8);
+        font.setFamily(QString::fromUtf8("\345\215\216\346\226\207\347\220\245\347\217\200"));
+        font.setPointSize(12);
         login_usr->setFont(font);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/upload/images/title_user.png"), QSize(), QIcon::Normal, QIcon::Off);
@@ -128,6 +140,65 @@ public:
 
         horizontalLayout_3->addWidget(btns_wg);
 
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
+        widget_2 = new QWidget(ButtonGroup);
+        widget_2->setObjectName(QString::fromUtf8("widget_2"));
+        verticalLayout = new QVBoxLayout(widget_2);
+        verticalLayout->setSpacing(0);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        widget_3 = new QWidget(widget_2);
+        widget_3->setObjectName(QString::fromUtf8("widget_3"));
+        horizontalLayout_2 = new QHBoxLayout(widget_3);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer);
+
+        min = new QToolButton(widget_3);
+        min->setObjectName(QString::fromUtf8("min"));
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/upload/images/title_min.png"), QSize(), QIcon::Normal, QIcon::Off);
+        min->setIcon(icon6);
+        min->setIconSize(QSize(30, 30));
+        min->setAutoRaise(true);
+
+        horizontalLayout_2->addWidget(min);
+
+        max = new QToolButton(widget_3);
+        max->setObjectName(QString::fromUtf8("max"));
+        QIcon icon7;
+        icon7.addFile(QString::fromUtf8(":/upload/images/title_max.png"), QSize(), QIcon::Normal, QIcon::Off);
+        max->setIcon(icon7);
+        max->setIconSize(QSize(30, 30));
+        max->setAutoRaise(true);
+
+        horizontalLayout_2->addWidget(max);
+
+        close = new QToolButton(widget_3);
+        close->setObjectName(QString::fromUtf8("close"));
+        QIcon icon8;
+        icon8.addFile(QString::fromUtf8(":/upload/images/title_close.png"), QSize(), QIcon::Normal, QIcon::Off);
+        close->setIcon(icon8);
+        close->setIconSize(QSize(30, 30));
+        close->setAutoRaise(true);
+
+        horizontalLayout_2->addWidget(close);
+
+
+        verticalLayout->addWidget(widget_3);
+
+        verticalSpacer = new QSpacerItem(20, 75, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout->addItem(verticalSpacer);
+
+
+        horizontalLayout_3->addWidget(widget_2);
+
 
         retranslateUi(ButtonGroup);
 
@@ -143,6 +214,9 @@ public:
         download->setText(QCoreApplication::translate("ButtonGroup", "\344\270\213\350\275\275\346\246\234", nullptr));
         transform->setText(QCoreApplication::translate("ButtonGroup", "\344\274\240\350\276\223\345\210\227\350\241\250", nullptr));
         switchuser->setText(QCoreApplication::translate("ButtonGroup", "\345\210\207\346\215\242\347\224\250\346\210\267", nullptr));
+        min->setText(QCoreApplication::translate("ButtonGroup", "...", nullptr));
+        max->setText(QCoreApplication::translate("ButtonGroup", "...", nullptr));
+        close->setText(QCoreApplication::translate("ButtonGroup", "...", nullptr));
     } // retranslateUi
 
 };

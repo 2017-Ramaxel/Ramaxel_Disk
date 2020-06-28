@@ -1,6 +1,9 @@
 #include "buttongroup.h"
 #include "ui_buttongroup.h"
-#include "mainwindow.h"
+#include <QToolButton>
+#include <QDebug>
+#include <QPainter>
+#include <QMouseEvent>
 
 ButtonGroup::ButtonGroup(QWidget *parent) :
     QWidget(parent),
@@ -34,6 +37,31 @@ ButtonGroup::ButtonGroup(QWidget *parent) :
     }
     connect(m_mapper, SIGNAL(mapped(QString)), this, SLOT(slotButtonClick(QString)));
 
+    // 关闭
+    connect(ui->close, &QToolButton::clicked, [=]()
+    {
+        emit closeWindow();
+    });
+    // 最大化
+    connect(ui->max, &QToolButton::clicked, [=]()
+    {
+        static bool fl = false;
+        if(!fl)
+        {
+            ui->max->setIcon(QIcon(":/images/title_normal.png"));
+        }
+        else
+        {
+            ui->max->setIcon(QIcon(":/images/title_max.png"));
+        }
+        fl = !fl;
+        emit maxWindow();
+    });
+    // 最小化
+    connect(ui->min, &QToolButton::clicked, [=]()
+    {
+        emit minWindow();
+    });
 }
 
 ButtonGroup::~ButtonGroup()
@@ -81,11 +109,35 @@ void ButtonGroup::slotButtonClick(QString text)
     }
 }
 
+void ButtonGroup::setParent(QWidget *parent)
+{
+    m_parent = parent;
+}
+
 void ButtonGroup::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
-    QPixmap bk(":/upload/images/title_bk.jpg");
+    QPixmap bk(":/images/title_bk.jpg");
     painter.drawPixmap(0, 0, width(), height(), bk);
 }
 
+void ButtonGroup::mousePressEvent(QMouseEvent *event)
+{
+    // 如果是左键, 计算窗口左上角, 和当前按钮位置的距离
+    if(event->button() == Qt::LeftButton)
+    {
+        // 计算和窗口左上角的相对位置
+        m_pos = event->globalPos() - m_parent->geometry().topLeft();
+    }
+}
+
+void ButtonGroup::mouseMoveEvent(QMouseEvent *event)
+{
+    // 移动是持续的状态, 需要使用buttons
+    if(event->buttons() & Qt::LeftButton)
+    {
+        QPoint pos = event->globalPos() - m_pos;
+        m_parent->move(pos);
+    }
+}

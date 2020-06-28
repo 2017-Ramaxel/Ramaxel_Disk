@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include "qpainter.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -8,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("Ramaxel网盘");
     this->setWindowFlags(Qt::FramelessWindowHint | windowFlags());
+    // 给菜单窗口传参
+    ui->btn_group->setParent(this);
     // 处理所有信号
     managerSignals();
     // 默认显示我的文件窗口
@@ -77,6 +80,60 @@ void MainWindow::managerSignals()
 
 
     });
+
+    // 关闭
+    connect(ui->btn_group, &ButtonGroup::closeWindow, this, &MainWindow::close);
+    // 最大化
+    connect(ui->btn_group, &ButtonGroup::maxWindow, [=]()
+    {
+        static bool flag = false;
+        if(!flag)
+        {
+            this->showMaximized();
+            flag = true;
+        }
+        else
+        {
+            this->showNormal();
+            flag = false;
+        }
+    });
+    // 最小化
+    connect(ui->btn_group, &ButtonGroup::minWindow, this, &MainWindow::showMinimized);
+    // 栈窗口切换
+    // 我的文件
+    connect(ui->btn_group, &ButtonGroup::sigMyFile, [=]()
+    {
+        ui->stackedWidget->setCurrentWidget(ui->myfiles_page);
+//        // 刷新文件列表
+//        ui->myfiles_page->refreshFiles();
+    });
+    // 分享列表
+    connect(ui->btn_group, &ButtonGroup::sigShareList, [=]()
+    {
+        ui->stackedWidget->setCurrentWidget(ui->sharefile_page);
+//        // 刷新分享列表
+//        ui->sharefile_page->refreshFiles();
+    });
+    // 下载榜
+    connect(ui->btn_group, &ButtonGroup::sigDownload, [=]()
+    {
+        ui->stackedWidget->setCurrentWidget(ui->ranking_page);
+//        // 刷新下载榜列表
+//        ui->ranking_page->refreshFiles();
+    });
+    // 传输列表
+    connect(ui->btn_group, &ButtonGroup::sigTransform, [=]()
+    {
+        ui->stackedWidget->setCurrentWidget(ui->transfer_page);
+    });
+    // 切换用户
+    connect(ui->btn_group, &ButtonGroup::sigSwitchUser, [=]()
+    {
+        qDebug() << "bye bye...";
+        loginAgain();
+    });
+
     // stack窗口切换
     connect(ui->myfiles_page, &MyFileWg::gotoTransfer, [=](TransferStatus status)
     {

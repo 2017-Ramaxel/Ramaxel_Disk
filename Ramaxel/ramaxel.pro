@@ -19,11 +19,14 @@ SOURCES += \
     buttongroup.cpp \
     common/common.cpp \
     common/des.cpp \
+    common/downloadlayout.cpp \
     login.cpp \
+    logininfoinstance.cpp \
     main.cpp \
     mainwindow.cpp \
     myfilewg.cpp \
     rankinglist.cpp \
+    selfwidget/mymenu.cpp \
     sharelist.cpp \
     titlewidget.cpp \
     transfer.cpp
@@ -32,10 +35,13 @@ HEADERS += \
     buttongroup.h \
     common/common.h \
     common/des.h \
+    common/downloadlayout.h \
     login.h \
+    logininfoinstance.h \
     mainwindow.h \
     myfilewg.h \
     rankinglist.h \
+    selfwidget/mymenu.h \
     sharelist.h \
     titlewidget.h \
     transfer.h

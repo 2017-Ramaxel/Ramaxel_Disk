@@ -30,11 +30,18 @@ public:
     QByteArray setRegisterJson(QString userName, QString nickName,
                                QString firstPwd, QString phone, QString email);
 
+    //得到服务器处理登录后的返回码
+    QStringList getLoginStatus(QByteArray json);
+private:
+    // 读取配置信息，设置默认登录状态，默认设置信息
+    void readCfg();
+
 private:
     Ui::Login *ui;
     // 主窗口指针
     MainWindow* m_mainWin;
     Common m_cm;
+    QNetworkAccessManager *m_manager;
 
 
 
