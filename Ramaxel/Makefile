@@ -2327,6 +2327,53 @@ moc_transfer.cpp: transfer.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvector2d.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtouchdevice.h \
+		common/common.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QDebug \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QString \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QListWidgetItem \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlistwidget.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlistview.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qframe.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvalidator.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qregularexpression.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qicon.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qslider.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyle.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QUrl \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVariant \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVector \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QObject \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslerror.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcryptographichash.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qdatetime.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qssl.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFlags \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
 		moc_predefs.h \
 		../../../../Qt/5.13.1/gcc_64/bin/moc
 	/home/yan/Qt/5.13.1/gcc_64/bin/moc $(DEFINES) --include /home/yan/Desktop/Ramaxel/Ramaxel_Disk/Ramaxel/moc_predefs.h -I/home/yan/Qt/5.13.1/gcc_64/mkspecs/linux-g++ -I/home/yan/Desktop/Ramaxel/Ramaxel_Disk/Ramaxel -I/home/yan/Qt/5.13.1/gcc_64/include -I/home/yan/Qt/5.13.1/gcc_64/include/QtWidgets -I/home/yan/Qt/5.13.1/gcc_64/include/QtGui -I/home/yan/Qt/5.13.1/gcc_64/include/QtNetwork -I/home/yan/Qt/5.13.1/gcc_64/include/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include transfer.h -o moc_transfer.cpp
@@ -3081,7 +3128,54 @@ ui_mainwindow.h: mainwindow.ui \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qfile.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvector2d.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtouchdevice.h
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtouchdevice.h \
+		common/common.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QDebug \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QString \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QListWidgetItem \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlistwidget.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlistview.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qframe.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvalidator.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qregularexpression.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qicon.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qslider.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyle.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QUrl \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVariant \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVector \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QObject \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslerror.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcryptographichash.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qdatetime.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qssl.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFlags \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType
 	/home/yan/Qt/5.13.1/gcc_64/bin/uic mainwindow.ui -o ui_mainwindow.h
 
 ui_myfilewg.h: myfilewg.ui \
@@ -4809,7 +4903,21 @@ filepropertyinfo.o: selfwidget/filepropertyinfo.cpp selfwidget/filepropertyinfo.
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
-		ui_filepropertyinfo.h
+		ui_filepropertyinfo.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QGridLayout \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QLabel \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlabel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filepropertyinfo.o selfwidget/filepropertyinfo.cpp
 
 mymenu.o: selfwidget/mymenu.cpp selfwidget/mymenu.h \
@@ -5338,8 +5446,54 @@ transfer.o: transfer.cpp transfer.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvector2d.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtouchdevice.h \
-		ui_transfer.h \
+		common/common.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QDebug \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QString \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QListWidgetItem \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlistwidget.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlistview.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qframe.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvalidator.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qregularexpression.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qicon.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qslider.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyle.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QUrl \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVariant \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVector \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QObject \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslerror.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcryptographichash.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qdatetime.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qssl.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFlags \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
+		ui_transfer.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
@@ -5355,12 +5509,8 @@ transfer.o: transfer.cpp transfer.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QHBoxLayout \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QScrollArea \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qscrollarea.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qframe.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QSpacerItem \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QTabWidget \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qicon.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QTextEdit \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtextedit.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextdocument.h \
@@ -5371,7 +5521,8 @@ transfer.o: transfer.cpp transfer.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QToolButton \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtoolbutton.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o transfer.o transfer.cpp
 
 qrc_src.o: qrc_src.cpp 

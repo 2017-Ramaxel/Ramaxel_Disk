@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "common/common.h"
 #include "selfwidget/mymenu.h"
+#include "logininfoinstance.h"
 
 namespace Ui {
 class ShareList;
@@ -40,7 +41,7 @@ public:
     QByteArray setFilesListJson(int start, int count);
 
     //解析json信息
-    void getFileJsonInfo(QByteArray array);
+    void getFileJsonInfo(QByteArray data);
 
     //清除所有item
     void clearItems();
@@ -48,7 +49,21 @@ public:
 //----------下载文件处理----------------
     // 取出下载任务列表的队首任务，下载完后，再取下一个任务
     void downloadFilesAction();
+    void addDownloadFiles();
 
+    // 下载文件 pv 字段处理
+    void dealFilePv(QString md5, QString filename);
+
+//----------文件右键菜单实现---------------
+    enum CMD{Property, Cancel, Save};
+    void dealSelectedFile(CMD cmd=Property);
+
+    void getFileProperty(FileInfo *info);
+    void cancelShareFile(FileInfo *info);
+    void saveFileToMyList(FileInfo *info);
+
+    //设置分享文件item的json包
+    QByteArray setShareFileJson(QString user, QString md5, QString filename);
 
 signals:
     void gotoTransfer(TransferStatus status);
@@ -58,7 +73,6 @@ private:
     Ui::ShareList *ui;
     Common m_cm;
     QTimer m_downloadTimer;
-    enum CMD{Property, Cancel, Save};
 
     //文件右键菜单
     MyMenu *m_menufile;
@@ -73,7 +87,7 @@ private:
     QNetworkAccessManager *m_manager;
 
     QList<FileInfo *> m_shareFileList;      //共享文件列表
-    long m_userFileCount;   //用户文件数目
+    long m_userFilesCount;   //用户文件数目
 
     int m_start;            //文件位置起点
     int m_count;            //每次请求文件个数
