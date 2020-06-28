@@ -51,7 +51,7 @@ void ShareList::initListWidget()
     {
         QListWidgetItem *item = ui->listWidget->itemAt( pos );
 
-        if( item == NULL ) // 没有点图标
+        if( item == nullptr ) // 没有点图标
         {
             // QPoint QMouseEvent::pos()   这个只是返回相对这个widget(重载了QMouseEvent的widget)的位置。
             // QPoint QMouseEvent::globalPos()  窗口坐标，这个是返回鼠标的全局坐标
