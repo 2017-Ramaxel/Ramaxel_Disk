@@ -2,6 +2,7 @@
 #define TRANSFER_H
 
 #include <QWidget>
+#include <common/common.h>
 
 namespace Ui {
 class Transfer;
@@ -15,10 +16,14 @@ public:
     explicit Transfer(QWidget *parent = nullptr);
     ~Transfer();
 
+    //显示数据传输记录
+    void displayDataRecord(QString path = RECORDDIR);
     // 显示上传窗口
     void showUpload();
     // 显示下载窗口
     void showDownload();
+signals:
+    void currentTabSignal(QString); //告诉主界面,当前是哪个tab
 
 private:
     Ui::Transfer *ui;
