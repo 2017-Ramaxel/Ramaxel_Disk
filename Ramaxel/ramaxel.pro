@@ -19,6 +19,7 @@ SOURCES += \
     buttongroup.cpp \
     common/common.cpp \
     common/des.cpp \
+    common/downloadlayout.cpp \
     login.cpp \
     logininfoinstance.cpp \
     main.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     buttongroup.h \
     common/common.h \
     common/des.h \
+    common/downloadlayout.h \
     login.h \
     logininfoinstance.h \
     mainwindow.h \
