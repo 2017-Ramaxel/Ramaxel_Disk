@@ -105,8 +105,8 @@ void MainWindow::managerSignals()
     connect(ui->btn_group, &ButtonGroup::sigMyFile, [=]()
     {
         ui->stackedWidget->setCurrentWidget(ui->myfiles_page);
-        // 刷新文件列表
-        ui->myfiles_page->refreshFiles();
+//        // 刷新文件列表
+//        ui->myfiles_page->refreshFiles();
     });
     // 分享列表
     connect(ui->btn_group, &ButtonGroup::sigShareList, [=]()
@@ -160,8 +160,8 @@ void MainWindow::loginAgain()
     //ui->myfiles_page->clearAllTask();
 
     // 清空上一个用户的一些文件显示信息
-    ui->myfiles_page->clearFileList();
-    ui->myfiles_page->clearItems();
+    //ui->myfiles_page->clearFileList();
+    //ui->myfiles_page->clearItems();
 }
 
 void MainWindow::paintEvent(QPaintEvent *)

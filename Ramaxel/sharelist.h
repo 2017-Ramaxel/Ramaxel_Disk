@@ -75,13 +75,13 @@ private:
     QTimer m_downloadTimer;
 
     //文件右键菜单
-    MyMenu *m_menufile;
+    MyMenu *m_menu;
     QAction *m_downloadAction;
     QAction *m_propertyAction;
     QAction *m_cancelAction;
     QAction *m_saveAction;
     //空白处右键菜单
-    MyMenu *m_menu;
+    MyMenu *m_menuEmpty;
     QAction *m_refreshAction;
 
     QNetworkAccessManager *m_manager;

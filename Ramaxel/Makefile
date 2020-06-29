@@ -3452,32 +3452,62 @@ buttongroup.o: buttongroup.cpp buttongroup.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qsignalmapper.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMap \
 		ui_buttongroup.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVariant \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/QIcon \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qicon.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QSpacerItem \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QToolButton \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtoolbutton.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qicon.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QDebug \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/QPainter \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpainter.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextoption.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpen.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/QMouseEvent
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/QMouseEvent \
+		logininfoinstance.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QString \
+		common/common.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QListWidgetItem \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlistwidget.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlistview.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qframe.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvalidator.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qregularexpression.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qslider.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyle.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QUrl \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVariant \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVector \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QObject \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslerror.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcryptographichash.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qdatetime.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qssl.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFlags \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o buttongroup.o buttongroup.cpp
 
 common.o: common/common.cpp ../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile \
@@ -4467,39 +4497,10 @@ login.o: login.cpp login.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qjsonobject.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QJsonValue \
 		ui_login.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QCheckBox \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qcheckbox.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QGridLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QLabel \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlabel.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QLineEdit \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlineedit.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextcursor.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextformat.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpen.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextoption.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QSpacerItem \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QStackedWidget \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstackedwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QToolButton \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtoolbutton.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		titlewidget.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/QPainter \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpainter.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextoption.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpen.h \
 		common/des.h \
 		logininfoinstance.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QMessageBox \
@@ -4991,37 +4992,6 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
 		ui_mainwindow.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QStackedWidget \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstackedwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		buttongroup.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QSignalMapper \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qsignalmapper.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMap \
-		myfilewg.h \
-		selfwidget/mymenu.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QMenu \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qmenu.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qaction.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		rankinglist.h \
-		sharelist.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QTimer \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qtimer.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qbasictimer.h \
-		logininfoinstance.h \
-		transfer.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QMessageBox \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qmessagebox.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdialog.h \
@@ -5187,19 +5157,6 @@ myfilewg.o: myfilewg.cpp myfilewg.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
 		ui_myfilewg.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QListWidget \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QFileDialog \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qdir.h \
@@ -5220,7 +5177,16 @@ myfilewg.o: myfilewg.cpp myfilewg.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QNetworkRequest \
 		logininfoinstance.h \
 		selfwidget/filepropertyinfo.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QDialog
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QDialog \
+		common/downloadtask.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile \
+		selfwidget/dataprogress.h \
+		common/uploadtask.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myfilewg.o myfilewg.cpp
 
 rankinglist.o: rankinglist.cpp rankinglist.h \
@@ -5327,42 +5293,7 @@ rankinglist.o: rankinglist.cpp rankinglist.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qfiledevice.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvector2d.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtouchdevice.h \
-		ui_rankinglist.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVariant \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QHeaderView \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qheaderview.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemview.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qframe.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qabstractitemmodel.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qitemselectionmodel.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvalidator.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qregularexpression.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qicon.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qslider.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qstyle.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabbar.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtabwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qrubberband.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QTableWidget \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtablewidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtableview.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h
+		ui_rankinglist.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rankinglist.o rankinglist.cpp
 
 dataprogress.o: selfwidget/dataprogress.cpp selfwidget/dataprogress.h \
@@ -5625,21 +5556,7 @@ filepropertyinfo.o: selfwidget/filepropertyinfo.cpp selfwidget/filepropertyinfo.
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
-		ui_filepropertyinfo.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QGridLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QLabel \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlabel.h
+		ui_filepropertyinfo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filepropertyinfo.o selfwidget/filepropertyinfo.cpp
 
 mymenu.o: selfwidget/mymenu.cpp selfwidget/mymenu.h \
@@ -5913,19 +5830,6 @@ sharelist.o: sharelist.cpp sharelist.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qactiongroup.h \
 		logininfoinstance.h \
 		ui_sharelist.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QListWidget \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QNetworkReply \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkreply.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QIODevice \
@@ -6054,28 +5958,6 @@ titlewidget.o: titlewidget.cpp titlewidget.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvector2d.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtouchdevice.h \
 		ui_titlewidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QVariant \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/QIcon \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qicon.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QLabel \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlabel.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qframe.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QToolButton \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtoolbutton.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/QMouseEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o titlewidget.o titlewidget.cpp
 
@@ -6231,35 +6113,12 @@ transfer.o: transfer.cpp transfer.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
 		ui_transfer.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QGridLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		common/downloadlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QScrollArea \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qscrollarea.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QSpacerItem \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QTabWidget \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QTextEdit \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtextedit.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextdocument.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextoption.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextcursor.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextformat.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpen.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QToolButton \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtoolbutton.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		common/downloadlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		logininfoinstance.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o transfer.o transfer.cpp

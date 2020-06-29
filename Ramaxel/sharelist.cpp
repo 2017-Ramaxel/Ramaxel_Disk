@@ -1,15 +1,15 @@
 #include "sharelist.h"
 #include "ui_sharelist.h"
-#include <QtNetwork/QNetworkAccessManager>
-#include <QNetworkAccessManager>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QMessageBox>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QMessageBox>
-#include <QFile>
 #include <QFileDialog>
+#include "logininfoinstance.h"
+#include "common/downloadtask.h"
 #include "selfwidget/filepropertyinfo.h"
 
 ShareList::ShareList(QWidget *parent) :
@@ -69,12 +69,12 @@ void ShareList::initListWidget()
             // QPoint QMouseEvent::globalPos()  窗口坐标，这个是返回鼠标的全局坐标
             // QPoint QCursor::pos() [static] 返回相对显示器的全局坐标
             // QWidget::pos() : QPoint 这个属性获得的是当前目前控件在父窗口中的位置
-            m_menu->exec( QCursor::pos() ); // 在鼠标点击的地方弹出菜单
+            m_menuEmpty->exec( QCursor::pos() ); // 在鼠标点击的地方弹出菜单
         }
         else // 点图标
         {
             ui->listWidget->setCurrentItem(item);
-            m_menufile->exec( QCursor::pos() );
+            m_menu->exec( QCursor::pos() );
         }
     });
 }
@@ -82,34 +82,28 @@ void ShareList::initListWidget()
 void ShareList::addActionMenu()
 {
     //菜单一，文件右键菜单
-    m_menufile = new MyMenu(this);
+    m_menu = new MyMenu(this);
 
     m_downloadAction = new QAction("下载", this);
     m_propertyAction = new QAction("属性", this);
     m_cancelAction = new QAction("取消分享", this);
     m_saveAction = new QAction("转存文件", this);
 
-    m_menufile->addAction(m_downloadAction);
-    m_menufile->addAction(m_cancelAction);
-    m_menufile->addAction(m_saveAction);
-    m_menufile->addAction(m_cancelAction);
+    m_menu->addAction(m_downloadAction);
+    m_menu->addAction(m_cancelAction);
+    m_menu->addAction(m_saveAction);
+    m_menu->addAction(m_propertyAction);
 
     //菜单二
-    m_menu = new MyMenu(this);
+    m_menuEmpty = new MyMenu(this);
     m_refreshAction = new QAction("刷新", this);
-    m_menu->addAction(m_refreshAction);
+    m_menuEmpty->addAction(m_refreshAction);
 
     //信号与槽
     connect(m_downloadAction, &QAction::triggered, [=]()
     {
         cout << "下载文件";
         addDownloadFiles();
-    });
-
-    connect(m_propertyAction, &QAction::triggered, [=]()
-    {
-        cout << "文件属性";
-        dealSelectedFile(Property);
     });
 
     connect(m_cancelAction, &QAction::triggered, [=]()
@@ -122,6 +116,12 @@ void ShareList::addActionMenu()
     {
         cout << "转存文件";
         dealSelectedFile(Save);
+    });
+
+    connect(m_propertyAction, &QAction::triggered, [=]()
+    {
+        cout << "文件属性";
+        dealSelectedFile(Property);
     });
 
     connect(m_refreshAction, &QAction::triggered, [=]()
@@ -199,9 +199,10 @@ void ShareList::clearShareFileList()
 // 获取共享文件列表
 void ShareList::getUserFilesList()
 {
+    cout << m_userFilesCount;
     if(m_userFilesCount <= 0)
     {
-        cout << "获取文件列表失败";
+        cout << "获取共享文件列表条件结束";
         refreshFileItems();
         return;
     }
@@ -378,7 +379,74 @@ void ShareList::clearItems()
 //下载文件action实现
 void ShareList::downloadFilesAction()
 {
+    DownloadTask *p = DownloadTask::getInstance();
+    if(p == nullptr)
+    {
+        cout << "DownloadTask::getInstance() == null";
+        return;
+    }
+    //下载队列为空，说明无任务
+    if(p->isEmpty())
+    {
+        return;
+    }
+    //当前时间无任务在下载，才能单任务下载
+    if(p->isDownload())
+    {
+        return;
+    }
 
+    //是否为共享文件的下载任务，是才能执行，否则中断程序
+    if(p->isShareTask() == false)
+    {
+        return;
+    }
+
+    DownloadInfo *tmp = p->takeTask();
+    QUrl url = tmp->url;
+    QFile *file = tmp->file;
+    QString md5 = tmp->md5;
+    QString filename = tmp->filename;
+    DataProgress *dp = tmp->dp;
+
+    //发送get请求
+    QNetworkReply* reply = m_manager->get(QNetworkRequest(url));
+    if(reply == nullptr)
+    {
+        //删除文件
+        p->dealDownloadTask();
+        cout << "get err";
+        return;
+    }
+
+    //获取请求的数据完成时，就会发送信号SIGNAL(finished))
+    connect(reply, &QNetworkReply::finished, [=]()
+    {
+        cout << "下载完成";
+        reply->deleteLater();
+        p->dealDownloadTask();
+
+        LoginInfoInstance *login = LoginInfoInstance::getInstance();
+        m_cm.writeRecord(login->getUser(), filename, "010");
+
+        dealFilePv(md5, filename);
+    });
+
+    //readyRead信号，可将数据保存下来
+    connect(reply, &QNetworkReply::readyRead, [=]()
+    {
+       //文件存在
+        if(file!=nullptr)
+        {
+            file->write(reply->readAll());
+        }
+    });
+
+    connect(reply, &QNetworkReply::downloadProgress, [=](qint64 bytesRead, qint64 totalBytes)
+    {
+        //设置进度
+        dp->setProgress(bytesRead, totalBytes);
+    });
 }
 
 //处理被选择的文件，主要是右键菜单
@@ -572,11 +640,120 @@ QByteArray ShareList::setShareFileJson(QString user, QString md5, QString filena
     return json.toJson();
 }
 
+//添加下载文件
 void ShareList::addDownloadFiles()
 {
+    QListWidgetItem *item = ui->listWidget->currentItem();
+    if(item == nullptr)
+    {
+        cout << "item == null";
+        return;
+    }
+
+    //跳转到下载页面
+    emit gotoTransfer(TransferStatus::Download);
+
+    //获取下载列表实例
+    DownloadTask *p = DownloadTask::getInstance();
+    if(p == nullptr)
+    {
+        cout << "DownloadTask::getInstance() == null";
+        return;
+    }
+
+    for (int i=0;i<m_shareFileList.size(); ++i)
+    {
+        if(m_shareFileList.at(i)->item == item)
+        {
+            QString filePathName = QFileDialog::getSaveFileName(this, "选择保存文件路径", m_shareFileList.at(i)->filename);
+            if(filePathName.isEmpty())
+            {
+                cout << "filePathName is empty.";
+                return;
+            }
+
+            /*
+               下载文件：
+                    成功：{"code":"009"}
+                    失败：{"code":"010"}
+
+                追加任务到下载队列
+                参数：info：下载文件信息， filePathName：文件保存路径
+                成功：0
+                失败：
+                  -1: 下载的文件是否已经在下载队列中
+                  -2: 打开文件失败
+            */
+            //追加到下载列表
+            int res = p->appendDownloadList(m_shareFileList.at(i), filePathName, true);
+            if(res == -1)
+            {
+                QMessageBox::warning(this, "任务已完成", "任务已在下载队列中！");
+            }
+            //打开文件失败
+            else if(res == -2)
+            {
+                LoginInfoInstance *login = LoginInfoInstance::getInstance();
+                //下载文件失败
+                m_cm.writeRecord(login->getUser(), m_shareFileList.at(i)->filename, "010");
+            }
+            break;
+        }
+    }
 }
 
 // 下载文件 pv 字段处理
 void ShareList::dealFilePv(QString md5, QString filename)
 {
+    QNetworkRequest request;
+
+    LoginInfoInstance *login = LoginInfoInstance::getInstance();
+
+    QString url = QString("http://%1:%2/dealsharefile?cmd=pv").arg(login->getIp()).arg(login->getPort());
+    request.setUrl(QUrl(url));
+    cout << "url = " << url;
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QByteArray data = setShareFileJson(login->getUser(), md5, filename);
+
+    QNetworkReply* reply = m_manager->post(request, data);
+    if(reply == nullptr)
+    {
+        cout << "reply == null";
+        return;
+    }
+
+    connect(reply, &QNetworkReply::finished, [=]()
+    {
+        if(reply->error() != QNetworkReply::NoError)
+        {
+            cout << reply->errorString();
+            reply->deleteLater();
+            return ;
+        }
+
+        QByteArray array = reply->readAll();
+        cout <<array;
+
+        reply->deleteLater();
+
+        if("016" == m_cm.getCode(array))
+        {
+            for (int i = 0; i< m_shareFileList.size(); ++i)
+            {
+                FileInfo *info = m_shareFileList.at(i);
+                if(info->md5 == md5 && info->filename == filename)
+                {
+                    int pv = info->pv;
+                    info->pv = pv+1;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            cout << "下载文件pv字段处理失败！";
+        }
+    });
 }
