@@ -10,7 +10,8 @@
 #include <QListWidgetItem>
 #include "logininfoinstance.h"
 #include "selfwidget/filepropertyinfo.h"
-
+#include "common/downloadtask.h"
+#include "common/uploadtask.h"
 
 MyFileWg::MyFileWg(QWidget *parent) :
     QWidget(parent),
@@ -25,6 +26,9 @@ MyFileWg::MyFileWg(QWidget *parent) :
 
     // http管理类对象
     m_manager = Common::getNetManager();
+
+    // 定时检查任务队列
+    checkTaskList();
 }
 
 MyFileWg::~MyFileWg()
@@ -46,6 +50,8 @@ void MyFileWg::initListWidget()
     ui->listWidget->setMovement(QListView::Static);
     // 设置图标之间的间距, 当setGridSize()时，此选项无效
     ui->listWidget->setSpacing(30);
+
+    refreshFileItems();
 
     // listWidget 右键菜单
     // 发出 customContextMenuRequested 信号
@@ -845,10 +851,346 @@ void MyFileWg::refreshFileItems()
 void MyFileWg::addUploadFiles()
 {
     cout << "上传文件...";
+    emit gotoTransfer(TransferStatus::Upload);
+    //获取上传列表实例
+    UploadTask *uploadList = UploadTask::getInstance();
+    if(uploadList == nullptr)
+    {
+        cout << "UploadTask::getInstance() == NULL";
+        return;
+    }
+
+    QStringList list = QFileDialog::getOpenFileNames();
+    for(int i = 0; i < list.size(); ++i)
+    {
+        //cout << "所选文件为："<<list.at(i);
+        //  -1: 文件大于30m
+        //  -2：上传的文件是否已经在上传队列中
+        //  -3: 打开文件失败
+        //  -4: 获取布局失败
+        int res = uploadList->appendUploadList(list.at(i));
+        if(res == -1)
+        {
+            QMessageBox::warning(this, "文件太大", "文件大小不能超过30M！！！");
+        }
+        else if(res == -2)
+        {
+            QMessageBox::warning(this, "添加失败", "上传的文件是否已经在上传队列中！！！");
+        }
+        else if(res == -3)
+        {
+            cout << "打开文件失败";
+        }
+        else if(res == -4)
+        {
+            cout << "获取布局失败";
+        }
+    }
 }
+
+// 上传文件处理，取出上传任务列表的队首任务，上传完后，再取下一个任务
+void MyFileWg::uploadFilesAction()
+{
+    // 获取上传列表实例
+    UploadTask *uploadList = UploadTask::getInstance();
+    if(uploadList == nullptr)
+    {
+        cout << "UploadTask::getInstance() == NULL";
+        return;
+    }
+
+    // 如果队列为空，无上传任务，终止程序
+    if( uploadList->isEmpty() )
+    {
+        return;
+    }
+
+    // 查看是否有上传任务，单任务上传，当前有任务，不能上传
+    if( uploadList->isUpload() )
+    {
+        return;
+    }
+
+    // 获取登陆信息实例
+    LoginInfoInstance *login = LoginInfoInstance::getInstance(); //获取单例
+
+    // url
+    QNetworkRequest request;
+    QString url = QString("http://%1:%2/md5").arg(login->getIp()).arg(login->getPort());
+    request.setUrl( QUrl( url )); //设置url
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    // 取出第0个上传任务，如果任务队列没有任务在上传，设置第0个任务上传
+    UploadFileInfo *info = uploadList->takeTask();
+
+    // post数据包
+    QByteArray array = setMd5Json(login->getUser(), login->getToken(), info->md5, info->fileName);
+
+    // 发送post请求
+    QNetworkReply *reply = m_manager->post(request, array);
+    if(reply == nullptr)
+    {
+        cout << "reply is NULL";
+        return;
+    }
+
+    // 信号和槽连接
+    connect(reply, &QNetworkReply::finished, [=]()
+    {
+        if (reply->error() != QNetworkReply::NoError) //有错误
+        {
+            cout << reply->errorString();
+            reply->deleteLater(); //释放资源
+            return;
+        }
+
+        QByteArray array = reply->readAll();
+        //cout << array.data();
+        reply->deleteLater(); //释放资源
+
+        /*
+        秒传文件：
+            文件已存在：{"code":"005"}
+            秒传成功：  {"code":"006"}
+            秒传失败：  {"code":"007"}
+        token验证失败：{"code":"111"}
+
+        */
+        if("006" == m_cm.getCode(array) ) //common.h
+        {
+            //秒传文件成功
+            //cout << info->fileName.toUtf8().data() << "-->秒传成功";
+            m_cm.writeRecord(login->getUser(), info->fileName, "006");
+
+            //删除已经完成的上传任务
+            uploadList->dealUploadTask();
+
+        }
+        else if("007" == m_cm.getCode(array) )
+        {
+            // 说明后台服务器没有此文件，需要真正的文件上传
+            uploadFile(info);
+        }
+        else if("005" == m_cm.getCode(array) )// "005", 上传的文件已存在
+        {
+            m_cm.writeRecord(login->getUser(), info->fileName, "005");
+            //删除已经完成的上传任务
+            uploadList->dealUploadTask();
+        }
+        else if("111" == m_cm.getCode(array)) //token验证失败
+        {
+            QMessageBox::warning(this, "账户异常", "请重新登陆！！！");
+            emit loginAgainSignal(); //发送重新登陆信号
+            return;
+        }
+    });
+}
+
+// 上传真正的文件内容，不能秒传的前提下
+void MyFileWg::uploadFile(UploadFileInfo *info)
+{
+    //取出上传任务
+    QFile *file = info->file;           //文件指针
+    QString fileName = info->fileName;  //文件名字
+    QString md5 = info->md5;            //文件md5码
+    qint64 size = info->size;           //文件大小
+    DataProgress *dp = info->dp;        //进度条控件
+    QString boundary = m_cm.getBoundary();   //产生分隔线
+
+    //获取登陆信息实例
+    LoginInfoInstance *login = LoginInfoInstance::getInstance(); //获取单例
+
+    QByteArray data;
+
+    /*
+    ------WebKitFormBoundary88asdgewtgewx\r\n
+    Content-Disposition: form-data; user="mike"; filename="xxx.jpg"; md5="xxxx"; size=10240\r\n
+    Content-Type: application/octet-stream\r\n
+    \r\n
+    真正的文件内容\r\n
+    ------WebKitFormBoundary88asdgewtgewx
+    */
+
+    //第1行，分隔线
+    data.append(boundary);
+    data.append("\r\n");
+
+    //上传文件信息
+    data.append("Content-Disposition: form-data; ");
+    data.append( QString("user=\"%1\" ").arg( login->getUser() ) ); //上传用户
+    data.append( QString("filename=\"%1\" ").arg(fileName) ); //文件名字
+    data.append( QString("md5=\"%1\" ").arg(md5) ); //文件md5码
+    data.append( QString("size=%1").arg(size)  );   //文件大小
+    data.append("\r\n");
+
+    data.append("Content-Type: application/octet-stream");
+    data.append("\r\n");
+    data.append("\r\n");
+
+    // 上传文件内容
+    data.append( file->readAll() ); //文件内容
+    data.append("\r\n");
+
+    // 结束分隔线
+    data.append(boundary);
+
+    QNetworkRequest request; //请求对象
+    //http://127.0.0.1:80/upload
+    QString url = QString("http://%1:%2/upload").arg(login->getIp()).arg(login->getPort());
+    request.setUrl(QUrl( url )); //设置url
+
+    // qt默认的请求头
+    //request.setRawHeader("Content-Type","text/html");
+    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
+
+    // 发送post请求
+    QNetworkReply * reply = m_manager->post( request, data );
+    if(reply == nullptr)
+    {
+        cout << "reply == NULL";
+        return;
+    }
+
+    // 有可用数据更新时
+    connect(reply, &QNetworkReply::uploadProgress, [=](qint64 bytesRead, qint64 totalBytes)
+    {
+        if(totalBytes != 0) //这个条件很重要
+        {
+            //cout << bytesRead/1024 << ", " << totalBytes/1024;
+            dp->setProgress(bytesRead/1024, totalBytes/1024); //设置进度条
+        }
+    });
+
+    // 获取请求的数据完成时，就会发送信号SIGNAL(finished())
+    connect(reply, &QNetworkReply::finished, [=]()
+    {
+        if (reply->error() != QNetworkReply::NoError) //有错误
+        {
+            cout << reply->errorString();
+            reply->deleteLater(); //释放资源
+            return;
+        }
+
+        QByteArray array = reply->readAll();
+
+        reply->deleteLater();
+
+        /*
+            上传文件：
+                成功：{"code":"008"}
+                失败：{"code":"009"}
+            */
+        if("008" == m_cm.getCode(array) ) //common.h
+        {
+            //cout << fileName.toUtf8().data() <<" ---> 上传完成";
+            m_cm.writeRecord(login->getUser(), info->fileName, "008");
+        }
+        else if("009" == m_cm.getCode(array) )
+        {
+            //cout << fileName.toUtf8().data() << " ---> 上传失败";
+            m_cm.writeRecord(login->getUser(), info->fileName, "009");
+        }
+
+
+        //获取上传列表实例
+        UploadTask *uploadList = UploadTask::getInstance();
+        if(uploadList == nullptr)
+        {
+            cout << "UploadTask::getInstance() == NULL";
+            return;
+        }
+
+        uploadList->dealUploadTask(); //删除已经完成的上传任务
+    }
+    );
+}
+
 
 // 添加需要下载的文件到下载任务列表
 void MyFileWg::addDownloadFiles()
 {
     cout << "下载文件...";
+}
+
+
+
+
+void MyFileWg::clearAllTask()
+{
+    //获取上传列表实例
+    UploadTask *uploadList = UploadTask::getInstance();
+    if(uploadList == nullptr)
+    {
+        cout << "UploadTask::getInstance() == NULL";
+        return;
+    }
+
+    uploadList->clearList();
+
+    //获取下载列表实例
+    DownloadTask *p = DownloadTask::getInstance();
+    if(p == nullptr)
+    {
+        cout << "DownloadTask::getInstance() == NULL";
+        return;
+    }
+
+    p->clearList();
+}
+
+// 定时检查处理任务队列中的任务
+void MyFileWg::checkTaskList()
+{
+    //定时检查上传队列是否有任务需要上传
+    connect(&m_uploadFileTimer, &QTimer::timeout, [=]()
+    {
+        //上传文件处理，取出上传任务列表的队首任务，上传完后，再取下一个任务
+        uploadFilesAction();
+    });
+
+    // 启动定时器，500毫秒间隔
+    // 每个500毫秒，检测上传任务，每一次只能上传一个文件
+    m_uploadFileTimer.start(500);
+
+    // 定时检查下载队列是否有任务需要下载
+    connect(&m_downloadTimer, &QTimer::timeout, [=]()
+    {
+        // 上传文件处理，取出上传任务列表的队首任务，上传完后，再取下一个任务
+        //downloadFilesAction();
+    });
+
+    // 启动定时器，500毫秒间隔
+    // 每个500毫秒，检测下载任务，每一次只能下载一个文件
+    m_downloadTimer.start(500);
+}
+
+
+//上传文件处理
+// 设置md5信息的json包
+QByteArray MyFileWg::setMd5Json(QString user, QString token, QString md5, QString fileName)
+{
+    QMap<QString, QVariant> tmp;
+    tmp.insert("user", user);
+    tmp.insert("token", token);
+    tmp.insert("md5", md5);
+    tmp.insert("fileName", fileName);
+
+    /*json数据如下
+    {
+        user:xxxx,
+        token:xxxx,
+        md5:xxx,
+        fileName: xxx
+    }
+    */
+    QJsonDocument jsonDocument = QJsonDocument::fromVariant(tmp);
+    if ( jsonDocument.isNull() )
+    {
+        cout << " jsonDocument.isNull() ";
+        return "";
+    }
+
+    //cout << jsonDocument.toJson().data();
+
+    return jsonDocument.toJson();
 }

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include "selfwidget/mymenu.h"
 #include "common/common.h"
+#include <QTimer>
+#include <common/uploadtask.h>
 
 namespace Ui {
 class MyFileWg;
@@ -24,12 +26,16 @@ public:
 
     // 添加需要上传的文件到上传任务列表
     void addUploadFiles();
-
     // 添加需要下载的文件到下载任务列表
     void addDownloadFiles();
+    // 设置md5信息的json包
+    QByteArray setMd5Json(QString user, QString token, QString md5, QString fileName);
+    // 上传文件处理，取出上传任务列表的队首任务，上传完后，再取下一个任务
+    void uploadFilesAction();
+    // 上传真正的文件内容，不能秒传的前提下
+    void uploadFile(UploadFileInfo *info);
 
-
-    //==========>文件item展示<==============
+    //文件item展示
     // 清空文件列表
     void clearFileList();
     // 清空所有item项目
@@ -40,8 +46,7 @@ public:
     void refreshFileItems();
 
 
-
-    //==========>显示用户的文件列表<==============
+    //显示用户的文件列表
     // desc是descend 降序意思
     // asc 是ascend 升序意思
     // Normal：普通用户列表，PvAsc：按下载量升序， PvDesc：按下载量降序
@@ -64,14 +69,18 @@ public:
     void dealSelectdFile(QString cmd="分享");
     QByteArray setDealFileJson(QString user, QString token, QString md5, QString filename);//设置json包
 
-    //==========>分享文件<==============
+    //分享文件
     void shareFile(FileInfo *info); //分享某个文件
-
-    //==========>删除文件<==============
+    //删除文件
     void delFile(FileInfo *info); //删除某个文件
-
-    //==========>获取文件属性<==============
+    //获取文件属性
     void getFileProperty(FileInfo *info); //获取属性信息
+
+
+    //清除上传下载任务
+    void clearAllTask();
+    // 定时检查处理任务队列中的任务
+    void checkTaskList();
 
 signals:
     void loginAgainSignal();
@@ -102,6 +111,10 @@ private:
     long m_userFilesCount;        //用户文件数目
     int m_start;                  //文件位置起点
     int m_count;                  //每次请求文件个数
+
+    //定时器
+    QTimer m_uploadFileTimer;       //定时检查上传队列是否有任务需要上传
+    QTimer m_downloadTimer;         //定时检查下载队列是否有任务需要下载
 
     QList<FileInfo *> m_fileList;    //文件列表
 

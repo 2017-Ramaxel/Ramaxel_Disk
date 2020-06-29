@@ -1,7 +1,7 @@
 #include "transfer.h"
 #include "ui_transfer.h"
 #include "common/downloadlayout.h"
-//#include "common/uploadlayout.h"
+#include "common/uploadlayout.h"
 #include "logininfoinstance.h"
 #include <QFile>
 
@@ -10,6 +10,11 @@ Transfer::Transfer(QWidget *parent) :
     ui(new Ui::Transfer)
 {
     ui->setupUi(this);
+
+    // 设置上传布局实例
+    UploadLayout *uploadLayout = UploadLayout::getInstance();
+    uploadLayout->setUploadLayout(ui->upload_scroll);
+
 
     // 设置下载布局实例
     DownloadLayout *downloadLayout = DownloadLayout::getInstance();
