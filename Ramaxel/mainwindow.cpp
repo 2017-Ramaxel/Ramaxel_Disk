@@ -138,7 +138,7 @@ void MainWindow::managerSignals()
     connect(ui->myfiles_page, &MyFileWg::gotoTransfer, [=](TransferStatus status)
     {
         ui->btn_group->slotButtonClick(Page::TRANSFER);
-        if(status == TransferStatus::Uplaod)
+        if(status == TransferStatus::Upload)
         {
             ui->transfer_page->showUpload();
         }

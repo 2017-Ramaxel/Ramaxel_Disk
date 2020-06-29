@@ -1589,6 +1589,17 @@ moc_myfilewg.cpp: myfilewg.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QTimer \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qtimer.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qbasictimer.h \
+		common/uploadtask.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile \
+		selfwidget/dataprogress.h \
 		moc_predefs.h \
 		../../../../Qt/5.13.1/gcc_64/bin/moc
 	/home/yan/Qt/5.13.1/gcc_64/bin/moc $(DEFINES) --include /home/yan/Desktop/Ramaxel/Ramaxel_Disk/Ramaxel/moc_predefs.h -I/home/yan/Qt/5.13.1/gcc_64/mkspecs/linux-g++ -I/home/yan/Desktop/Ramaxel/Ramaxel_Disk/Ramaxel -I/home/yan/Qt/5.13.1/gcc_64/include -I/home/yan/Qt/5.13.1/gcc_64/include/QtWidgets -I/home/yan/Qt/5.13.1/gcc_64/include/QtGui -I/home/yan/Qt/5.13.1/gcc_64/include/QtNetwork -I/home/yan/Qt/5.13.1/gcc_64/include/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include myfilewg.h -o moc_myfilewg.cpp
@@ -2892,6 +2903,17 @@ ui_mainwindow.h: mainwindow.ui \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QTimer \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qtimer.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qbasictimer.h \
+		common/uploadtask.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile \
+		selfwidget/dataprogress.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QWidget \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qwidget.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -4992,9 +5014,7 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
 		ui_mainwindow.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QMessageBox \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qmessagebox.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdialog.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/QPainter \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpainter.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextoption.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpen.h
@@ -5156,6 +5176,17 @@ myfilewg.o: myfilewg.cpp myfilewg.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QMetaType \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QTimer \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qtimer.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qbasictimer.h \
+		common/uploadtask.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile \
+		selfwidget/dataprogress.h \
 		ui_myfilewg.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QFileDialog \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qfiledialog.h \
@@ -5178,15 +5209,7 @@ myfilewg.o: myfilewg.cpp myfilewg.h \
 		logininfoinstance.h \
 		selfwidget/filepropertyinfo.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QDialog \
-		common/downloadtask.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile \
-		selfwidget/dataprogress.h \
-		common/uploadtask.h
+		common/downloadtask.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myfilewg.o myfilewg.cpp
 
 rankinglist.o: rankinglist.cpp rankinglist.h \
@@ -5830,25 +5853,33 @@ sharelist.o: sharelist.cpp sharelist.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qactiongroup.h \
 		logininfoinstance.h \
 		ui_sharelist.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QJsonArray \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qjsonarray.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qjsonvalue.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QJsonObject \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qjsonobject.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QJsonDocument \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/qjsondocument.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QJsonParseError \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QMessageBox \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qmessagebox.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdialog.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QNetworkReply \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/qnetworkreply.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QIODevice \
 		../../../../Qt/5.13.1/gcc_64/include/QtNetwork/QNetworkRequest \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QJsonDocument \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qjsondocument.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qjsonvalue.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QJsonObject \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qjsonobject.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QJsonArray \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/qjsonarray.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QMessageBox \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qmessagebox.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qdialog.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QFileDialog \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qdir.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/qfileinfo.h \
+		common/downloadtask.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile \
+		selfwidget/dataprogress.h \
 		selfwidget/filepropertyinfo.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/QDialog
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sharelist.o sharelist.cpp

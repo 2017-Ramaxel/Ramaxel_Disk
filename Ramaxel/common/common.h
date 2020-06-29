@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QString>
 #include <QListWidgetItem>
-#include <QtNetwork/QNetworkAccessManager>
+#include <QNetworkAccessManager>
 
 #define cout qDebug() << "[ " << __FILE__ << ":"  << __LINE__ << " ] "
 
@@ -21,31 +21,32 @@
 #define IP_REG          "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)"
 #define PORT_REG        "^[1-9]$|(^[1-9][0-9]$)|(^[1-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9]$)|(^[1-6][0-5][0-5][0-3][0-5]$)"
 
-// 文件信息
-struct FileInfo
-{
+struct FileInfo{
     QString md5;            // 文件md5码
     QString filename;       // 文件名字
     QString user;           // 用户
-    QString time;           // 上传时间
-    QString url;            // url
-    QString type;           // 文件类型
-    qint64 size;            // 文件大小
-    int shareStatus;        // 是否共享, 1共享， 0不共享
-    int pv;                 // 下载量
-    QListWidgetItem *item;  // list widget 的item
+    QString time;           //上传时间
+    QString url;            //url
+    QString type;           //文件类型
+    qint64 size;            //文件大小
+    int shareStatus;        //是否共享,1共享,0不共享
+    int pv;                 //下载量
+    QListWidgetItem *item;  //list widget 的item
 };
-// 传输状态
-enum TransferStatus{Download, Uplaod, Recod};
 
 
+//传输状态
+enum TransferStatus{Download, Upload, Recod};
+
+//只有从QObject派生的类才能使用信号和槽
 class Common : public QObject
 {
     Q_OBJECT
 
 public:
-    Common(QObject* parent = nullptr);
-    ~Common();
+    Common(QObject* parent = 0 );
+    ~Common() = default;
+
 
     // 窗口在屏幕中央显示
     void moveToCenter(QWidget *tmp);
@@ -59,11 +60,11 @@ public:
     // 得到文件后缀，参数为文件类型，函数内部判断是否有此类型，如果有，使用此类型，没有，使用other.png
     QString getFileType(QString type);
 
-    // 登录信息，写入配置文件
-    void writeLoginInfo(QString user, QString pwd, bool isRemeber, QString path = CONFFILE);
-
     // 服务器信息，写入配置文件
     void writeWebInfo(QString ip, QString port, QString path=CONFFILE);
+
+    // 登录信息，写入配置文件
+    void writeLoginInfo(QString user, QString pwd, bool isRemeber, QString path = CONFFILE);
 
     // 获取某个文件的md5码
     QString getFileMd5(QString filePath);
@@ -77,12 +78,13 @@ public:
     // 得到服务器回复的状态码， 返回值为 "000", 或 "001"
     QString getCode(QByteArray json);
 
-    // 传输数据记录到本地文件，user：操作用户，name：操作的文件, code: 操作码， path: 文件保存的路径
+    // 传输数据记录到本地文件，
+    // user：操作用户，name：操作的文件, code: 操作码， path: 文件保存的路径
     void writeRecord(QString user, QString name, QString code, QString path = RECORDDIR);
 
     // 得到http通信类对象
     static QNetworkAccessManager* getNetManager();
-public:
+
     static QStringList  m_typeList;
 
 private:
@@ -94,4 +96,3 @@ private:
 };
 
 #endif // COMMON_H
-
