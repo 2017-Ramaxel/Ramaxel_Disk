@@ -571,15 +571,15 @@ void ShareList::saveFileToMyList(FileInfo *info)
     LoginInfoInstance *login = LoginInfoInstance::getInstance();
 
     //如果该文件已经存在于用户的列表中，则无权限转存文件
-    if(login->getUser()!=info->user)
+    if(login->getUser()==info->user)
     {
-        QMessageBox::warning(this,"操作失败", "此文件不是当前登录的用户，无法执行取消文件分享");
+        QMessageBox::warning(this, "操作失败", "此文件本就属于该用户，无需转存！！！");
         return;
     }
 
     //转存文件
     QNetworkRequest request;
-    QString url = QString("http://%1:%2/dealsharefile?cmd=cancel").arg(login->getIp()).arg(login->getPort());
+    QString url = QString("http:// %1:%2/dealsharefile?cmd=save").arg(login->getIp()).arg(login->getPort());
     request.setUrl(QUrl(url));
     cout << "url = " << url;
 
