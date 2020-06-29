@@ -6150,6 +6150,7 @@ transfer.o: transfer.cpp transfer.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayout.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qlayoutitem.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		common/uploadlayout.h \
 		logininfoinstance.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o transfer.o transfer.cpp

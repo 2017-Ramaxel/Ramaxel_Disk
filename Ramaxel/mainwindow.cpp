@@ -75,7 +75,7 @@ void MainWindow::managerSignals()
     {
         ui->stackedWidget->setCurrentWidget(ui->ranking_page);
         // 刷新下载榜列表
-        //ui->ranking_page->refreshFiles();
+        ui->ranking_page->refreshFiles();
     });
     // 传输列表
     connect(ui->btn_group, &ButtonGroup::sigTransform, [=]()

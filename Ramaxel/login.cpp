@@ -22,6 +22,8 @@ Login::Login(QWidget *parent) :
     this->setFont(QFont("",10,QFont::Normal,false));
     this->setWindowTitle("Ramaxel登录");
 
+    m_cm.getFileTypeList();
+
     // 初始化网络请求（http）类
     m_manager = Common::getNetManager();
     // 此处无需指定父窗口
