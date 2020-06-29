@@ -81,7 +81,7 @@ void DownloadTask::dealDownloadTask()
 
             //删除进度条
             //layout->removeWidget(tmp->dp);
-            //delete tmp->dp;
+            delete tmp->dp;
 
             //关闭删除文件
             QFile *file = tmp->file;
@@ -127,16 +127,16 @@ int DownloadTask::appendDownloadList(FileInfo *info, QString filePathName, bool 
     tmp->isDownload = false;        //没有在下载
     tmp->isShare = isShare;         //是否为共享文件下载
 
-    //DataProgress *p = new DataProgress; //创建进度条
-    //p->setFileName(tmp->filename); //设置文件名字
+    DataProgress *p = new DataProgress; //创建进度条
+    p->setFileName(tmp->filename); //设置文件名字
 
     //获取布局
     DownloadLayout *downloadLayout = DownloadLayout::getInstance();
     QVBoxLayout *layout = (QVBoxLayout*)downloadLayout->getDownloadLayout();
 
-    //tmp->dp = p;
+    tmp->dp = p;
     // 添加到布局, 最后一个是弹簧, 插入到弹簧上边
-    //layout->insertWidget(layout->count()-1, p);
+    layout->insertWidget(layout->count()-1, p);
 
     cout << info->url << "已经添加到下载列表";
 

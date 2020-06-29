@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QMouseEvent>
+#include <logininfoinstance.h>
 
 ButtonGroup::ButtonGroup(QWidget *parent) :
     QWidget(parent),
@@ -48,11 +49,11 @@ ButtonGroup::ButtonGroup(QWidget *parent) :
         static bool fl = false;
         if(!fl)
         {
-            ui->max->setIcon(QIcon(":/images/title_normal.png"));
+            ui->max->setIcon(QIcon("./images/title_normal.png"));
         }
         else
         {
-            ui->max->setIcon(QIcon(":/images/title_max.png"));
+            ui->max->setIcon(QIcon("./images/title_max.png"));
         }
         fl = !fl;
         emit maxWindow();
@@ -118,8 +119,12 @@ void ButtonGroup::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
-    QPixmap bk(":/images/title_bk.jpg");
+    QPixmap bk("./images/title_bk.jpg");
     painter.drawPixmap(0, 0, width(), height(), bk);
+
+    //获取登录实例
+    LoginInfoInstance *p = LoginInfoInstance::getInstance(); //获取单例
+    ui->login_usr->setText(p->getUser()); //显示当前登录用户的名字
 }
 
 void ButtonGroup::mousePressEvent(QMouseEvent *event)

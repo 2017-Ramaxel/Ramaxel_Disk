@@ -4,7 +4,7 @@
 #include "common.h"
 #include <QVBoxLayout>
 #include <QFile>
-//#include "selfwidget/dataprogress.h"
+#include "selfwidget/dataprogress.h"
 
 //下载文件的信息
 struct DownloadInfo
@@ -15,7 +15,7 @@ struct DownloadInfo
     QString md5;        //文件md5
     QUrl url;           //下载网址
     bool isDownload;    //是否已经在下载
-    //DataProgress *dp;   //下载进度控件
+    DataProgress *dp;   //下载进度控件
     bool isShare;       //是否为共享文件下载
 };
 

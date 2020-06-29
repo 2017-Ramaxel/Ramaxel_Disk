@@ -22,12 +22,14 @@ SOURCES += \
     common/downloadlayout.cpp \
     common/downloadtask.cpp \
     common/uploadlayout.cpp \
+    common/uploadtask.cpp \
     login.cpp \
     logininfoinstance.cpp \
     main.cpp \
     mainwindow.cpp \
     myfilewg.cpp \
     rankinglist.cpp \
+    selfwidget/dataprogress.cpp \
     selfwidget/filepropertyinfo.cpp \
     selfwidget/mymenu.cpp \
     sharelist.cpp \
@@ -41,11 +43,13 @@ HEADERS += \
     common/downloadlayout.h \
     common/downloadtask.h \
     common/uploadlayout.h \
+    common/uploadtask.h \
     login.h \
     logininfoinstance.h \
     mainwindow.h \
     myfilewg.h \
     rankinglist.h \
+    selfwidget/dataprogress.h \
     selfwidget/filepropertyinfo.h \
     selfwidget/mymenu.h \
     sharelist.h \
@@ -58,6 +62,7 @@ FORMS += \
     mainwindow.ui \
     myfilewg.ui \
     rankinglist.ui \
+    selfwidget/dataprogress.ui \
     selfwidget/filepropertyinfo.ui \
     sharelist.ui \
     titlewidget.ui \
