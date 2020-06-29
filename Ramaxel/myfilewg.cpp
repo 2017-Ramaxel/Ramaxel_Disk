@@ -1110,10 +1110,208 @@ void MyFileWg::uploadFile(UploadFileInfo *info)
 void MyFileWg::addDownloadFiles()
 {
     cout << "下载文件...";
+    emit gotoTransfer(TransferStatus::Download);
+    QListWidgetItem *item = ui->listWidget->currentItem();
+    if(item == nullptr)
+    {
+        cout << "item == NULL";
+        return;
+    }
+
+    //获取下载列表实例
+    DownloadTask *p = DownloadTask::getInstance();
+    if(p == nullptr)
+    {
+        cout << "DownloadTask::getInstance() == NULL";
+        return;
+    }
+
+    for(int i = 0; i < m_fileList.size(); ++i)
+    {
+        if(m_fileList.at(i)->item == item)
+        {
+
+            QString filePathName = QFileDialog::getSaveFileName(this, "选择保存文件路径", m_fileList.at(i)->filename );
+            if(filePathName.isEmpty())
+            {
+                cout << "filePathName.isEmpty()";
+                return;
+            }
+
+            /*
+               下载文件：
+                    成功：{"code":"009"}
+                    失败：{"code":"010"}
+            */
+            //cout << filePathName;
+
+            //追加任务到下载队列
+            int res = p->appendDownloadList(m_fileList.at(i), filePathName); //追加到下载列表
+            if(res == -1)
+            {
+                QMessageBox::warning(this, "任务已存在", "任务已经在下载队列中！！！");
+            }
+            else if(res == -2) //打开文件失败
+            {
+                m_cm.writeRecord(m_fileList.at(i)->user, m_fileList.at(i)->filename, "010"); //下载文件失败，记录
+            }
+
+            break; //中断条件很重要
+        }
+    }
 }
 
+//下载文件处理，取出下载任务列表的队首任务，下载完后，再取下一个任务
+void MyFileWg::downloadFilesAction()
+{
+   DownloadTask *p = DownloadTask::getInstance();
+   if(p == nullptr)
+   {
+       cout << "DownloadTask::getInstance() == NULL";
+       return;
+   }
+
+   if( p->isEmpty() ) //如果队列为空，说明没有任务
+   {
+       return;
+   }
+
+   if( p->isDownload() ) //当前时间没有任务在下载，才能下载，单任务
+   {
+       return;
+   }
+
+   //看是否是共享文件下载任务，不是才能往下执行, 如果是，则中断程序
+   if(p->isShareTask() == true)
+   {
+       return;
+   }
+
+   DownloadInfo *tmp = p->takeTask(); //取下载任务
 
 
+   QUrl url = tmp->url;
+   QFile *file = tmp->file;
+   QString md5 = tmp->md5;
+   QString user = tmp->user;
+   QString filename = tmp->filename;
+   DataProgress *dp = tmp->dp;
+
+   //发送get请求
+   QNetworkReply * reply = m_manager->get( QNetworkRequest(url) );
+   if(reply == nullptr)
+   {
+       p->dealDownloadTask(); //删除任务
+       cout << "get err";
+       return;
+   }
+
+   //获取请求的数据完成时，就会发送信号SIGNAL(finished())
+   connect(reply, &QNetworkReply::finished, [=]()
+   {
+       cout << "下载完成";
+       reply->deleteLater();
+
+       p->dealDownloadTask();//删除下载任务
+
+       m_cm.writeRecord(user, filename, "010"); //下载文件成功，记录
+
+       dealFilePv(md5, filename); //下载文件pv字段处理
+   });
+
+   //当有可用数据时，reply 就会发出readyRead()信号，我们这时就可以将可用的数据保存下来
+   connect(reply, &QNetworkReply::readyRead, [=]()
+   {
+       //如果文件存在，则写入文件
+       if (file != nullptr)
+       {
+           file->write(reply->readAll());
+       }
+   });
+
+   //有可用数据更新时
+   connect(reply, &QNetworkReply::downloadProgress, [=](qint64 bytesRead, qint64 totalBytes)
+   {
+       dp->setProgress(bytesRead, totalBytes);//设置进度
+   }
+   );
+}
+
+void MyFileWg::dealFilePv(QString md5, QString filename)
+{
+    QNetworkRequest request; //请求对象
+
+    //获取登陆信息实例
+    LoginInfoInstance *login = LoginInfoInstance::getInstance(); //获取单例
+
+    //127.0.0.1:80/dealfile?cmd=pv
+    QString url = QString("http://%1:%2/dealfile?cmd=pv").arg(login->getIp()).arg(login->getPort());
+    request.setUrl(QUrl( url )); //设置url
+
+    //qt默认的请求头
+    //request.setRawHeader("Content-Type","text/html");
+    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
+
+    /*
+    {
+        "user": "yoyo",
+        "token": "xxx",
+        "md5": "xxx",
+        "filename": "xxx"
+    }
+    */
+    QByteArray data = setDealFileJson( login->getUser(), login->getToken(), md5, filename); //设置json包
+
+    //发送post请求
+    QNetworkReply * reply = m_manager->post( request, data );
+    if(reply == nullptr)
+    {
+        cout << "reply == NULL";
+        return;
+    }
+
+    //获取请求的数据完成时，就会发送信号SIGNAL(finished())
+    connect(reply, &QNetworkReply::finished, [=]()
+    {
+        if (reply->error() != QNetworkReply::NoError) //有错误
+        {
+            cout << reply->errorString();
+            reply->deleteLater(); //释放资源
+            return;
+        }
+
+        //服务器返回用户的数据
+        QByteArray array = reply->readAll();
+
+        reply->deleteLater();
+
+        /*
+            下载文件pv字段处理
+                成功：{"code":"016"}
+                失败：{"code":"017"}
+            */
+        if("016" == m_cm.getCode(array) ) //common.h
+        {
+            //该文件pv字段+1
+            for(int i = 0; i < m_fileList.size(); ++i)
+            {
+                FileInfo *info = m_fileList.at(i);
+                if( info->md5 == md5 && info->filename == filename)
+                {
+                    int pv = info->pv;
+                    info->pv = pv+1;
+
+                    break; //很重要的中断条件
+                }
+            }
+        }
+        else
+        {
+            cout << "下载文件pv字段处理失败";
+        }
+
+    });
+}
 
 void MyFileWg::clearAllTask()
 {
@@ -1156,7 +1354,7 @@ void MyFileWg::checkTaskList()
     connect(&m_downloadTimer, &QTimer::timeout, [=]()
     {
         // 上传文件处理，取出上传任务列表的队首任务，上传完后，再取下一个任务
-        //downloadFilesAction();
+        downloadFilesAction();
     });
 
     // 启动定时器，500毫秒间隔

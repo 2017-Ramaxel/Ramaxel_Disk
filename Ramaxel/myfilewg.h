@@ -34,6 +34,10 @@ public:
     void uploadFilesAction();
     // 上传真正的文件内容，不能秒传的前提下
     void uploadFile(UploadFileInfo *info);
+    //下载文件处理，取出下载任务列表的队首任务，下载完后，再取下一个任务
+    void downloadFilesAction();
+    //下载文件标志处理
+    void dealFilePv(QString md5, QString filename); //下载文件pv字段处理
 
     //文件item展示
     // 清空文件列表
