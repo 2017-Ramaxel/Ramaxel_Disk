@@ -37,16 +37,19 @@ Login::Login(QWidget *parent) :
     ui->pwd_log->setEchoMode(QLineEdit::Password);
     ui->pwd_reg->setEchoMode(QLineEdit::Password);
     ui->repwd_reg->setEchoMode(QLineEdit::Password);
+
+    ui->name_log->setPlaceholderText("账号");
+    ui->pwd_log->setPlaceholderText("密码");
     // 当前显示的窗口
     ui->stackedWidget->setCurrentIndex(0);
     ui->name_log->setFocus();
     // 数据的格式提示
-    ui->name_log->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 3~16");
-    ui->name_reg->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 3~16");
-    ui->nichen_reg->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 3~16");
-    ui->pwd_log->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 6~18");
-    ui->pwd_reg->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 6~18");
-    ui->repwd_reg->setToolTip("合法字符:[a-z|A-Z|#|@|0-9|-|_|*],字符个数: 6~18");
+    ui->name_log->setToolTip("字符个数: 3~16");
+    ui->name_reg->setToolTip("字符个数: 3~16");
+    ui->nichen_reg->setToolTip("字符个数: 3~16");
+    ui->pwd_log->setToolTip("字符个数: 6~18");
+    ui->pwd_reg->setToolTip("字符个数: 6~18");
+    ui->repwd_reg->setToolTip("字符个数: 6~18");
 
     //接收标题栏发送的信号进行处理
     connect(ui->titlewidget,&TitleWidget::closewindow,[=](){

@@ -119,8 +119,8 @@ void ButtonGroup::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
-    QPixmap bk("./images/title_bk.jpg");
-    painter.drawPixmap(0, 0, width(), height(), bk);
+    //QPixmap bk("./images/title_bk.jpg");
+    //painter.drawPixmap(0, 0, width(), height(), bk);
 
     //获取登录实例
     LoginInfoInstance *p = LoginInfoInstance::getInstance(); //获取单例

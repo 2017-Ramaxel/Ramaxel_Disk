@@ -85,7 +85,6 @@ public:
     QSpacerItem *horizontalSpacer_18;
     QWidget *widget_4;
     QVBoxLayout *verticalLayout_5;
-    QLabel *server_set;
     QSpacerItem *verticalSpacer_7;
     QWidget *widget_6;
     QGridLayout *gridLayout_2;
@@ -107,7 +106,7 @@ public:
         if (Login->objectName().isEmpty())
             Login->setObjectName(QString::fromUtf8("Login"));
         Login->resize(611, 422);
-        Login->setStyleSheet(QString::fromUtf8("border-color: rgb(59, 59, 59);\n"
+        Login->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);\n"
 "border-color: rgb(0, 0, 0);\n"
 "border: 2px"));
         verticalLayout = new QVBoxLayout(Login);
@@ -121,6 +120,7 @@ public:
 
         stackedWidget = new QStackedWidget(Login);
         stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
+        stackedWidget->setStyleSheet(QString::fromUtf8(""));
         login_page_3 = new QWidget();
         login_page_3->setObjectName(QString::fromUtf8("login_page_3"));
         verticalLayout_2 = new QVBoxLayout(login_page_3);
@@ -137,6 +137,7 @@ public:
         pwd_log->setObjectName(QString::fromUtf8("pwd_log"));
         pwd_log->setMinimumSize(QSize(250, 40));
         pwd_log->setMaximumSize(QSize(150, 16777215));
+        pwd_log->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout_3->addWidget(pwd_log, 2, 1, 1, 1);
 
@@ -153,6 +154,7 @@ public:
         name_log->setMinimumSize(QSize(250, 40));
         name_log->setMaximumSize(QSize(150, 16777215));
         name_log->setAutoFillBackground(false);
+        name_log->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout_3->addWidget(name_log, 0, 1, 1, 1);
 
@@ -255,6 +257,7 @@ public:
 
         name_reg = new QLineEdit(widget_2);
         name_reg->setObjectName(QString::fromUtf8("name_reg"));
+        name_reg->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout->addWidget(name_reg, 0, 1, 1, 1);
 
@@ -265,6 +268,7 @@ public:
 
         nichen_reg = new QLineEdit(widget_2);
         nichen_reg->setObjectName(QString::fromUtf8("nichen_reg"));
+        nichen_reg->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout->addWidget(nichen_reg, 1, 1, 1, 1);
 
@@ -275,6 +279,7 @@ public:
 
         pwd_reg = new QLineEdit(widget_2);
         pwd_reg->setObjectName(QString::fromUtf8("pwd_reg"));
+        pwd_reg->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout->addWidget(pwd_reg, 2, 1, 1, 1);
 
@@ -285,6 +290,7 @@ public:
 
         repwd_reg = new QLineEdit(widget_2);
         repwd_reg->setObjectName(QString::fromUtf8("repwd_reg"));
+        repwd_reg->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout->addWidget(repwd_reg, 3, 1, 1, 1);
 
@@ -295,6 +301,7 @@ public:
 
         phone_reg = new QLineEdit(widget_2);
         phone_reg->setObjectName(QString::fromUtf8("phone_reg"));
+        phone_reg->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout->addWidget(phone_reg, 4, 1, 1, 1);
 
@@ -305,6 +312,7 @@ public:
 
         email_reg = new QLineEdit(widget_2);
         email_reg->setObjectName(QString::fromUtf8("email_reg"));
+        email_reg->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout->addWidget(email_reg, 5, 1, 1, 1);
 
@@ -356,12 +364,6 @@ public:
         widget_4->setObjectName(QString::fromUtf8("widget_4"));
         verticalLayout_5 = new QVBoxLayout(widget_4);
         verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
-        server_set = new QLabel(widget_4);
-        server_set->setObjectName(QString::fromUtf8("server_set"));
-        server_set->setAlignment(Qt::AlignCenter);
-
-        verticalLayout_5->addWidget(server_set);
-
         verticalSpacer_7 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_5->addItem(verticalSpacer_7);
@@ -382,6 +384,7 @@ public:
 
         port = new QLineEdit(widget_6);
         port->setObjectName(QString::fromUtf8("port"));
+        port->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout_2->addWidget(port, 2, 2, 1, 1);
 
@@ -396,6 +399,7 @@ public:
         ip_addr = new QLineEdit(widget_6);
         ip_addr->setObjectName(QString::fromUtf8("ip_addr"));
         ip_addr->setMinimumSize(QSize(200, 0));
+        ip_addr->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
         gridLayout_2->addWidget(ip_addr, 0, 2, 1, 1);
 
@@ -456,7 +460,7 @@ public:
 
         retranslateUi(Login);
 
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(Login);
@@ -477,7 +481,6 @@ public:
         label_6->setText(QCoreApplication::translate("Login", "\347\224\265\350\257\235\345\217\267\347\240\201", nullptr));
         label_10->setText(QCoreApplication::translate("Login", "\351\202\256\347\256\261", nullptr));
         regist->setText(QCoreApplication::translate("Login", "\346\263\250     \345\206\214", nullptr));
-        server_set->setText(QCoreApplication::translate("Login", "\346\234\215\345\212\241\345\231\250\350\256\276\347\275\256", nullptr));
         label_12->setText(QCoreApplication::translate("Login", "\346\234\215\345\212\241\345\231\250\345\234\260\345\235\200", nullptr));
         label_13->setText(QCoreApplication::translate("Login", "\346\234\215\345\212\241\345\231\250\347\253\257\345\217\243", nullptr));
         server_ok->setText(QCoreApplication::translate("Login", "\347\241\256     \345\256\232", nullptr));

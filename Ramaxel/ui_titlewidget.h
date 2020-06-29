@@ -34,7 +34,7 @@ public:
     {
         if (TitleWidget->objectName().isEmpty())
             TitleWidget->setObjectName(QString::fromUtf8("TitleWidget"));
-        TitleWidget->resize(669, 102);
+        TitleWidget->resize(669, 110);
         TitleWidget->setStyleSheet(QString::fromUtf8("border-color: rgb(255, 255, 255);"));
         verticalLayout = new QVBoxLayout(TitleWidget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
