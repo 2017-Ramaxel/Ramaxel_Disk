@@ -21,6 +21,7 @@ SOURCES += \
     common/des.cpp \
     common/downloadlayout.cpp \
     common/downloadtask.cpp \
+    common/uploadlayout.cpp \
     login.cpp \
     logininfoinstance.cpp \
     main.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     common/des.h \
     common/downloadlayout.h \
     common/downloadtask.h \
+    common/uploadlayout.h \
     login.h \
     logininfoinstance.h \
     mainwindow.h \
