@@ -1,8 +1,8 @@
 {
     "login": {
-        "pwd": "AAAAAPAXtRg=",
-        "remember": "no",
-        "user": "AAAAACUZWtM="
+        "pwd": "123123",
+        "remember": "yes",
+        "user": "yan"
     },
     "type_path": {
         "path": "conf/fileType"

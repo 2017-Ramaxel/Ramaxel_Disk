@@ -71,7 +71,7 @@ void MyFileWg::initListWidget()
 
 void MyFileWg::addActionMenu()
 {
-    //===================菜单1==================
+    //菜单1
     m_menu = new MyMenu( this );
 
     // 初始化菜单项
@@ -86,7 +86,7 @@ void MyFileWg::addActionMenu()
     m_menu->addAction(m_delAction);
     m_menu->addAction(m_propertyAction);
 
-    //===================菜单2===================
+    //菜单2
     m_menuEmpty = new MyMenu( this );
     // 动作2
     m_pvAscendingAction = new QAction("按下载量升序", this);
@@ -864,10 +864,6 @@ void MyFileWg::addUploadFiles()
     for(int i = 0; i < list.size(); ++i)
     {
         //cout << "所选文件为："<<list.at(i);
-        //  -1: 文件大于30m
-        //  -2：上传的文件是否已经在上传队列中
-        //  -3: 打开文件失败
-        //  -4: 获取布局失败
         int res = uploadList->appendUploadList(list.at(i));
         if(res == -1)
         {
@@ -948,14 +944,8 @@ void MyFileWg::uploadFilesAction()
         //cout << array.data();
         reply->deleteLater(); //释放资源
 
-        /*
-        秒传文件：
-            文件已存在：{"code":"005"}
-            秒传成功：  {"code":"006"}
-            秒传失败：  {"code":"007"}
-        token验证失败：{"code":"111"}
 
-        */
+        //秒传文件：
         if("006" == m_cm.getCode(array) ) //common.h
         {
             //秒传文件成功
@@ -1002,14 +992,6 @@ void MyFileWg::uploadFile(UploadFileInfo *info)
 
     QByteArray data;
 
-    /*
-    ------WebKitFormBoundary88asdgewtgewx\r\n
-    Content-Disposition: form-data; user="mike"; filename="xxx.jpg"; md5="xxxx"; size=10240\r\n
-    Content-Type: application/octet-stream\r\n
-    \r\n
-    真正的文件内容\r\n
-    ------WebKitFormBoundary88asdgewtgewx
-    */
 
     //第1行，分隔线
     data.append(boundary);
@@ -1372,15 +1354,6 @@ QByteArray MyFileWg::setMd5Json(QString user, QString token, QString md5, QStrin
     tmp.insert("token", token);
     tmp.insert("md5", md5);
     tmp.insert("fileName", fileName);
-
-    /*json数据如下
-    {
-        user:xxxx,
-        token:xxxx,
-        md5:xxx,
-        fileName: xxx
-    }
-    */
     QJsonDocument jsonDocument = QJsonDocument::fromVariant(tmp);
     if ( jsonDocument.isNull() )
     {

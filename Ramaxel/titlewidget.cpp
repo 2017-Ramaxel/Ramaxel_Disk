@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 #include <stdio.h>
 #include <algorithm>
+#include <QPainter>
 
 TitleWidget::TitleWidget(QWidget *parent) :
     QWidget(parent),
@@ -46,4 +47,11 @@ void TitleWidget::mousePressEvent(QMouseEvent *event)
     {
         m_pt = event->globalPos() - m_parent->geometry().topLeft();
     }
+}
+void TitleWidget::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QPainter painter(this);
+    QPixmap bk("./images/title_bk.jpg");
+    painter.drawPixmap(0, 0, width(), height(), bk);
 }

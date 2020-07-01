@@ -47,8 +47,7 @@ private:
 
     ~UploadTask()    //析构函数为私有
     {
-    }
-
+    }\
     //静态数据成员，类中声明，类外必须定义
     static UploadTask *instance;
 

@@ -6,19 +6,34 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>611</width>
-    <height>422</height>
+    <width>647</width>
+    <height>421</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);
+   <string notr="true">
 border-color: rgb(0, 0, 0);
 border: 2px</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="TitleWidget" name="titlewidget" native="true">
      <property name="minimumSize">
@@ -35,10 +50,10 @@ border: 2px</string>
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="login_page_3">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -46,13 +61,26 @@ border: 2px</string>
         <widget class="QWidget" name="widget_12" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QWidget" name="widget_13" native="true">
             <layout class="QGridLayout" name="gridLayout_3">
              <item row="2" column="1">
               <widget class="QLineEdit" name="pwd_log">
                <property name="minimumSize">
                 <size>
-                 <width>250</width>
+                 <width>300</width>
                  <height>40</height>
                 </size>
                </property>
@@ -100,7 +128,7 @@ border: 2px</string>
               <widget class="QLineEdit" name="name_log">
                <property name="minimumSize">
                 <size>
-                 <width>250</width>
+                 <width>300</width>
                  <height>40</height>
                 </size>
                </property>
@@ -224,7 +252,7 @@ color: rgb(0, 85, 255);</string>
               <widget class="QToolButton" name="login_ok">
                <property name="minimumSize">
                 <size>
-                 <width>250</width>
+                 <width>300</width>
                  <height>40</height>
                 </size>
                </property>
@@ -241,7 +269,7 @@ background-color: rgb(85, 170, 255);
 border-radius:3px;</string>
                </property>
                <property name="text">
-                <string>登          录</string>
+                <string>登   录</string>
                </property>
                <property name="iconSize">
                 <size>
@@ -403,8 +431,8 @@ border-radius:3px;</string>
               <widget class="QToolButton" name="regist">
                <property name="minimumSize">
                 <size>
-                 <width>250</width>
-                 <height>35</height>
+                 <width>300</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -415,7 +443,7 @@ border-color: rgb(255, 255, 255);
 border-radius:3px;</string>
                </property>
                <property name="text">
-                <string>注     册</string>
+                <string>注  册</string>
                </property>
                <property name="autoRaise">
                 <bool>true</bool>
@@ -576,8 +604,8 @@ border-radius:3px;</string>
               <widget class="QToolButton" name="server_ok">
                <property name="minimumSize">
                 <size>
-                 <width>250</width>
-                 <height>35</height>
+                 <width>300</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -587,7 +615,7 @@ color: rgb(255, 255, 255);
 border-radius:3px;</string>
                </property>
                <property name="text">
-                <string>确     定</string>
+                <string>确 定</string>
                </property>
                <property name="autoRaise">
                 <bool>true</bool>

@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -26,9 +27,10 @@ public:
     QVBoxLayout *verticalLayout;
     QWidget *widget;
     QHBoxLayout *horizontalLayout;
-    QLabel *logo;
+    QSpacerItem *horizontalSpacer;
     QToolButton *set;
     QToolButton *close;
+    QLabel *logo;
 
     void setupUi(QWidget *TitleWidget)
     {
@@ -43,14 +45,9 @@ public:
         widget->setStyleSheet(QString::fromUtf8(""));
         horizontalLayout = new QHBoxLayout(widget);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        logo = new QLabel(widget);
-        logo->setObjectName(QString::fromUtf8("logo"));
-        logo->setLayoutDirection(Qt::LeftToRight);
-        logo->setPixmap(QPixmap(QString::fromUtf8(":/upload/images/logo.ico")));
-        logo->setScaledContents(false);
-        logo->setAlignment(Qt::AlignCenter);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout->addWidget(logo);
+        horizontalLayout->addItem(horizontalSpacer);
 
         set = new QToolButton(widget);
         set->setObjectName(QString::fromUtf8("set"));
@@ -77,6 +74,15 @@ public:
 
         verticalLayout->addWidget(widget);
 
+        logo = new QLabel(TitleWidget);
+        logo->setObjectName(QString::fromUtf8("logo"));
+        logo->setLayoutDirection(Qt::LeftToRight);
+        logo->setPixmap(QPixmap(QString::fromUtf8(":/upload/images/logo.ico")));
+        logo->setScaledContents(false);
+        logo->setAlignment(Qt::AlignCenter);
+
+        verticalLayout->addWidget(logo);
+
 
         retranslateUi(TitleWidget);
 
@@ -86,9 +92,9 @@ public:
     void retranslateUi(QWidget *TitleWidget)
     {
         TitleWidget->setWindowTitle(QCoreApplication::translate("TitleWidget", "Form", nullptr));
-        logo->setText(QString());
         set->setText(QCoreApplication::translate("TitleWidget", "...", nullptr));
         close->setText(QCoreApplication::translate("TitleWidget", "...", nullptr));
+        logo->setText(QString());
     } // retranslateUi
 
 };

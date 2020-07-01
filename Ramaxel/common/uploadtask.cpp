@@ -18,7 +18,7 @@ UploadTask * UploadTask::getInstance()
 int UploadTask::appendUploadList(QString path)
 {
     qint64 size = QFileInfo( path ).size();
-    if(size > 30*1024*1024) //最大文件只能是30M
+    if(size > 1024*1024*1024) //最大文件只能是30M
     {
         cout << "file is to big\n";
         return -1;

@@ -56,7 +56,7 @@ public:
         ButtonGroup->setMaximumSize(QSize(16777215, 115));
         horizontalLayout_3 = new QHBoxLayout(ButtonGroup);
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        horizontalLayout_3->setContentsMargins(9, 9, 9, 9);
+        horizontalLayout_3->setContentsMargins(12, 12, 12, 12);
         btns_wg = new QWidget(ButtonGroup);
         btns_wg->setObjectName(QString::fromUtf8("btns_wg"));
         horizontalLayout = new QHBoxLayout(btns_wg);

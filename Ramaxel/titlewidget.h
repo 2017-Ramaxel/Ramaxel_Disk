@@ -24,6 +24,7 @@ private:
 protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void paintEvent(QPaintEvent *event);
 
 signals:
     void showsetwg();

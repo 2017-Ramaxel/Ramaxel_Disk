@@ -51,8 +51,8 @@ public:
 
 
     //显示用户的文件列表
-    // desc是descend 降序意思
-    // asc 是ascend 升序意思
+    // desc 降序
+    // asc 升序
     // Normal：普通用户列表，PvAsc：按下载量升序， PvDesc：按下载量降序
     enum Display{Normal, PvAsc, PvDesc};
     // 得到服务器json文件

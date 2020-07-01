@@ -804,33 +804,22 @@ qrc_src.cpp: src.qrc \
 		../../../../Qt/5.13.1/gcc_64/bin/rcc \
 		test.qml \
 		logo.png \
-		images/login_min.png \
-		images/tile_min.png \
-		images/logo.ico \
-		images/tile_close.png \
-		images/upload.png \
-		images/title_bk2.jpg \
-		images/title_max.png \
-		images/title_bk.jpg \
-		images/title_bk3.jpg \
-		images/title_share.png \
-		images/login_close.png \
-		images/title_user.png \
-		images/title_data.png \
-		images/title_min.png \
-		images/top1.png \
 		images/tile_file.png \
-		images/top2.png \
-		images/title_normal.png \
-		images/top3.png \
-		images/tile_hot.png \
-		images/title_close.png \
-		images/login_bk.jpg \
-		images/display_bk.bmp \
-		images/login2.jpg \
-		images/title_change.png \
+		images/title_bk2.jpg \
+		images/title_data.png \
+		images/upload.png \
+		images/tile_min.png \
 		images/login_setting.png \
-		images/balckButton.png
+		images/title_bk.jpg \
+		images/login_close.png \
+		images/title_close.png \
+		images/title_change.png \
+		images/title_min.png \
+		images/title_max.png \
+		images/tile_hot.png \
+		images/title_bk3.jpg \
+		images/title_user.png \
+		images/title_share.png
 	/home/yan/Qt/5.13.1/gcc_64/bin/rcc -name src src.qrc -o qrc_src.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
@@ -6142,7 +6131,11 @@ titlewidget.o: titlewidget.cpp titlewidget.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qvector2d.h \
 		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtouchdevice.h \
 		ui_titlewidget.h \
-		../../../../Qt/5.13.1/gcc_64/include/QtGui/QMouseEvent
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/QMouseEvent \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/QPainter \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpainter.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qtextoption.h \
+		../../../../Qt/5.13.1/gcc_64/include/QtGui/qpen.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o titlewidget.o titlewidget.cpp
 
 transfer.o: transfer.cpp transfer.h \

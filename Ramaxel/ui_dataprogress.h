@@ -29,7 +29,7 @@ public:
     {
         if (DataProgress->objectName().isEmpty())
             DataProgress->setObjectName(QString::fromUtf8("DataProgress"));
-        DataProgress->resize(767, 30);
+        DataProgress->resize(767, 45);
         horizontalLayout = new QHBoxLayout(DataProgress);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setContentsMargins(5, 5, 5, 5);
@@ -42,6 +42,8 @@ public:
 
         progressBar = new QProgressBar(DataProgress);
         progressBar->setObjectName(QString::fromUtf8("progressBar"));
+        progressBar->setMinimumSize(QSize(300, 35));
+        progressBar->setMaximumSize(QSize(300, 35));
         progressBar->setValue(0);
 
         horizontalLayout->addWidget(progressBar);

@@ -392,21 +392,27 @@ void Login::readCfg()
     QString pwd = m_cm.getCfgValue("login", "pwd");
     QString remeber = m_cm.getCfgValue("login", "remember");
 
-    int ret = 0;
+    //设置账号
+    ui->name_log->setText(user);
 
     if(remeber == "yes")//记住密码
     {
         //密码解密
-        unsigned char encPwd[512] = {0};
-        int encPwdLen = 0;
+        //unsigned char encPwd[512] = {0};
+        //int encPwdLen = 0;
         //toLocal8Bit(), 转换为本地字符集，默认windows则为gbk编码，linux为utf-8编码
-        QByteArray tmp = QByteArray::fromBase64( pwd.toLocal8Bit());
-        ret = DesDec( (unsigned char *)tmp.data(), tmp.size(), encPwd, &encPwdLen);
-        if(ret != 0)
-        {
-            qDebug() << "DesDec";
-            return;
-        }
+        //QByteArray tmp = QByteArray::fromBase64( pwd.toLocal8Bit());
+        //ret = DesDec( (unsigned char *)tmp.data(), tmp.size(), encPwd, &encPwdLen);
+
+//        ui->pwd_log->setText(pwd);
+//        if(ret != 0)
+//        {
+//            qDebug() << "DesDec";
+//            return;
+//        }
+
+        //设置密码
+        ui->pwd_log->setText(pwd);
         ui->rem_pwd->setChecked(true);
 
     }
@@ -417,16 +423,17 @@ void Login::readCfg()
     }
 
     //用户解密
-    unsigned char encUsr[512] = {0};
-    int encUsrLen = 0;
-    //toLocal8Bit(), 转换为本地字符集，如果windows则为gbk编码，如果linux则为utf-8编码
-    QByteArray tmp = QByteArray::fromBase64( user.toLocal8Bit());
-    ret = DesDec( (unsigned char *)tmp.data(), tmp.size(), encUsr, &encUsrLen);
-    if(ret != 0)
-    {
-        qDebug() << "DesDec";
-        return;
-    }
+//    unsigned char encUsr[512] = {0};
+//    int encUsrLen = 0;
+//    //toLocal8Bit(), 转换为本地字符集，如果windows则为gbk编码，如果linux则为utf-8编码
+//    QByteArray tmp = QByteArray::fromBase64( user.toLocal8Bit());
+//    ret = DesDec( (unsigned char *)tmp.data(), tmp.size(), encUsr, &encUsrLen);
+//    if(ret != 0)
+//    {
+//        qDebug() << "DesDec";
+//        return;
+//    }
+
 }
 
 

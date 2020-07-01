@@ -39,13 +39,15 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(705, 521);
+        MainWindow->resize(1000, 800);
+        MainWindow->setMinimumSize(QSize(1000, 800));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         vboxLayout = new QVBoxLayout(centralWidget);
         vboxLayout->setSpacing(6);
         vboxLayout->setContentsMargins(11, 11, 11, 11);
         vboxLayout->setObjectName(QString::fromUtf8("vboxLayout"));
+        vboxLayout->setContentsMargins(13, 13, 13, 13);
         btn_group = new ButtonGroup(centralWidget);
         btn_group->setObjectName(QString::fromUtf8("btn_group"));
 

@@ -32,7 +32,7 @@ private:
     public:
         ~Garbo()
         {
-          if(NULL != DownloadLayout::instance)
+          if(nullptr != DownloadLayout::instance)
           {
             delete DownloadLayout::instance;
             DownloadLayout::instance = nullptr;

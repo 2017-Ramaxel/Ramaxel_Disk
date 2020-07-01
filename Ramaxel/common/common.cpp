@@ -266,31 +266,34 @@ void Common::writeLoginInfo(QString user, QString pwd, bool isRemeber, QString p
     QMap<QString, QVariant> login;
 
     // 登陆信息加密
-    int ret = 0;
+//    int ret = 0;
 
     //用户名加密
-    unsigned char encUser[1024] = {0};
-    int encUserLen;
+//    unsigned char encUser[1024] = {0};
+//    int encUserLen;
     // toLocal8Bit(), 转换为本地字符集，如果windows则为gbk编码，如果linux则为utf-8编码
-    ret = DesEnc((unsigned char *)user.toUtf8().data(), user.toUtf8().size(),encUser,&encUserLen);
-    if(ret != 0){   //加密失败
-        cout<<"DesEnc err";
-        return;
-    }
+    //ret = DesEnc((unsigned char *)user.toUtf8().data(), user.toUtf8().size(),encUser,&encUserLen);
+//    if(ret != 0){   //加密失败
+//        cout<<"DesEnc err";
+//        return;
+//    }
 
     //用户密码加密
-    unsigned char encPwd[512] = {0};
-    int encPwdLen;
-    ret = DesEnc((unsigned char *)pwd.toUtf8().data(),pwd.toUtf8().size(),encPwd,&encPwdLen);
-    if(ret != 0){
-        cout<<"DesEnc error";
-        return;
-    }
+//    unsigned char encPwd[512] = {0};
+//    int encPwdLen;
+//    ret = DesEnc((unsigned char *)pwd.toUtf8().data(),pwd.toUtf8().size(),encPwd,&encPwdLen);
+//    if(ret != 0){
+//        cout<<"DesEnc error";
+//        return;
+//    }
 
     // 再次加密
     // base64转码加密，目的将加密后的二进制转换为base64字符串
-    login.insert("user", QByteArray((char* )encUser,encUserLen).toBase64());   //用户名
-    login.insert("pwd", QByteArray((char* )encPwd,encPwdLen).toBase64());   //用户密码
+//    login.insert("user", QByteArray((char* )encUser,encUserLen).toBase64());   //用户名
+//    login.insert("pwd", QByteArray((char* )encPwd,encPwdLen).toBase64());   //用户密码
+
+    login.insert("user",user);
+    login.insert("pwd",pwd);
 
     //是否记住密码
     if(isRemeber == true)

@@ -27,10 +27,10 @@ public:
     // 设置TableWidget表头和一些属性
     void initTableWidget();
 
-    // 清空文件列表
+    //清空文件列表
     void clearshareFileList();
 
-    // ==========>显示共享文件列表<==============
+    //显示共享文件列表
     void refreshFiles();                                // 显示共享的文件列表
     QByteArray setFilesListJson(int start, int count);  // 设置json包
     void getUserFilesList();                            // 获取共享文件列表

@@ -36,6 +36,7 @@ public:
     QVBoxLayout *verticalLayout_2;
     QWidget *widget_12;
     QVBoxLayout *verticalLayout_3;
+    QSpacerItem *verticalSpacer;
     QWidget *widget_13;
     QGridLayout *gridLayout_3;
     QLineEdit *pwd_log;
@@ -105,12 +106,14 @@ public:
     {
         if (Login->objectName().isEmpty())
             Login->setObjectName(QString::fromUtf8("Login"));
-        Login->resize(611, 422);
-        Login->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);\n"
+        Login->resize(647, 421);
+        Login->setStyleSheet(QString::fromUtf8("\n"
 "border-color: rgb(0, 0, 0);\n"
 "border: 2px"));
         verticalLayout = new QVBoxLayout(Login);
+        verticalLayout->setSpacing(0);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
         titlewidget = new TitleWidget(Login);
         titlewidget->setObjectName(QString::fromUtf8("titlewidget"));
         titlewidget->setMinimumSize(QSize(0, 0));
@@ -120,7 +123,7 @@ public:
 
         stackedWidget = new QStackedWidget(Login);
         stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
-        stackedWidget->setStyleSheet(QString::fromUtf8(""));
+        stackedWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
         login_page_3 = new QWidget();
         login_page_3->setObjectName(QString::fromUtf8("login_page_3"));
         verticalLayout_2 = new QVBoxLayout(login_page_3);
@@ -129,13 +132,17 @@ public:
         widget_12->setObjectName(QString::fromUtf8("widget_12"));
         verticalLayout_3 = new QVBoxLayout(widget_12);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_3->addItem(verticalSpacer);
+
         widget_13 = new QWidget(widget_12);
         widget_13->setObjectName(QString::fromUtf8("widget_13"));
         gridLayout_3 = new QGridLayout(widget_13);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
         pwd_log = new QLineEdit(widget_13);
         pwd_log->setObjectName(QString::fromUtf8("pwd_log"));
-        pwd_log->setMinimumSize(QSize(250, 40));
+        pwd_log->setMinimumSize(QSize(300, 40));
         pwd_log->setMaximumSize(QSize(150, 16777215));
         pwd_log->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
 
@@ -151,7 +158,7 @@ public:
 
         name_log = new QLineEdit(widget_13);
         name_log->setObjectName(QString::fromUtf8("name_log"));
-        name_log->setMinimumSize(QSize(250, 40));
+        name_log->setMinimumSize(QSize(300, 40));
         name_log->setMaximumSize(QSize(150, 16777215));
         name_log->setAutoFillBackground(false);
         name_log->setStyleSheet(QString::fromUtf8("border-bottom:2px solid "));
@@ -208,7 +215,7 @@ public:
 
         login_ok = new QToolButton(widget_15);
         login_ok->setObjectName(QString::fromUtf8("login_ok"));
-        login_ok->setMinimumSize(QSize(250, 40));
+        login_ok->setMinimumSize(QSize(300, 40));
         login_ok->setMaximumSize(QSize(200, 50));
         login_ok->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 "font: 10pt \"Sans Serif\";\n"
@@ -325,7 +332,7 @@ public:
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         regist = new QToolButton(widget_3);
         regist->setObjectName(QString::fromUtf8("regist"));
-        regist->setMinimumSize(QSize(250, 35));
+        regist->setMinimumSize(QSize(300, 40));
         regist->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 170, 255);\n"
 "font: 10pt \"Sans Serif\";\n"
 "color: rgb(255, 255, 255);\n"
@@ -416,7 +423,7 @@ public:
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
         server_ok = new QToolButton(widget_5);
         server_ok->setObjectName(QString::fromUtf8("server_ok"));
-        server_ok->setMinimumSize(QSize(250, 35));
+        server_ok->setMinimumSize(QSize(300, 40));
         server_ok->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 170, 255);\n"
 "font: 10pt \"Sans Serif\";\n"
 "color: rgb(255, 255, 255);\n"
@@ -460,7 +467,7 @@ public:
 
         retranslateUi(Login);
 
-        stackedWidget->setCurrentIndex(2);
+        stackedWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(Login);
@@ -473,17 +480,17 @@ public:
         name_log->setText(QString());
         rem_pwd->setText(QCoreApplication::translate("Login", "\350\256\260\344\275\217\345\257\206\347\240\201", nullptr));
         reg_log->setText(QCoreApplication::translate("Login", "\346\263\250\345\206\214", nullptr));
-        login_ok->setText(QCoreApplication::translate("Login", "\347\231\273          \345\275\225", nullptr));
+        login_ok->setText(QCoreApplication::translate("Login", "\347\231\273   \345\275\225", nullptr));
         label_2->setText(QCoreApplication::translate("Login", "\347\224\250\346\210\267\345\220\215", nullptr));
         label_5->setText(QCoreApplication::translate("Login", "\346\230\265\347\247\260", nullptr));
         label_3->setText(QCoreApplication::translate("Login", "\345\257\206\347\240\201", nullptr));
         label_4->setText(QCoreApplication::translate("Login", "\347\241\256\350\256\244\345\257\206\347\240\201", nullptr));
         label_6->setText(QCoreApplication::translate("Login", "\347\224\265\350\257\235\345\217\267\347\240\201", nullptr));
         label_10->setText(QCoreApplication::translate("Login", "\351\202\256\347\256\261", nullptr));
-        regist->setText(QCoreApplication::translate("Login", "\346\263\250     \345\206\214", nullptr));
+        regist->setText(QCoreApplication::translate("Login", "\346\263\250  \345\206\214", nullptr));
         label_12->setText(QCoreApplication::translate("Login", "\346\234\215\345\212\241\345\231\250\345\234\260\345\235\200", nullptr));
         label_13->setText(QCoreApplication::translate("Login", "\346\234\215\345\212\241\345\231\250\347\253\257\345\217\243", nullptr));
-        server_ok->setText(QCoreApplication::translate("Login", "\347\241\256     \345\256\232", nullptr));
+        server_ok->setText(QCoreApplication::translate("Login", "\347\241\256 \345\256\232", nullptr));
     } // retranslateUi
 
 };

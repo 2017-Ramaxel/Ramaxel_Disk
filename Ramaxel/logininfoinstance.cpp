@@ -37,10 +37,10 @@ LoginInfoInstance *LoginInfoInstance::getInstance()
 //释放堆区空间
 void LoginInfoInstance::destroy()
 {
-    if(NULL != LoginInfoInstance::instance)
+    if(nullptr != LoginInfoInstance::instance)
     {
         delete LoginInfoInstance::instance;
-        LoginInfoInstance::instance = NULL;
+        LoginInfoInstance::instance = nullptr;
         qDebug() << "instance is detele";
     }
 }

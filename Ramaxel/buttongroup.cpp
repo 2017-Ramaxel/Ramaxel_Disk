@@ -119,7 +119,7 @@ void ButtonGroup::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
-    //QPixmap bk("./images/title_bk.jpg");
+    //QPixmap bk("./images/title_bk2.jpg");
     //painter.drawPixmap(0, 0, width(), height(), bk);
 
     //获取登录实例
